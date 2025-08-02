@@ -6,12 +6,27 @@
   <title>Space Invaders - Andy's Epic Gaming Zone! 🚀</title>
   <link rel='stylesheet' href='../css/styles.css'>
   <style>
+    :root {
+      --primary-color: #4ecdc4;
+      --secondary-color: #45b7aa;
+      --accent-color: #96ceb4;
+      --text-color: #ffffff;
+      --bg-dark: #2c3e50;
+      --bg-darker: #1a252f;
+      --danger-color: #ff6b35;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Courier New', monospace;
-      background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
-      color: #ffffff;
+      background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+      color: var(--text-color);
       margin: 0;
-      padding: 1rem;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -19,19 +34,16 @@
     
     .game-header {
       text-align: center;
-      padding: 1rem;
-      background: rgba(20, 20, 30, 0.95);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-      position: relative;
-      z-index: 100;
+      padding: 2rem 1rem 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      margin-bottom: 2rem;
     }
     
     .game-header h1 {
-      font-size: 2rem;
-      color: #00ff41;
-      margin: 0;
-      text-shadow: 0 0 10px #00ff41;
+      font-size: 3rem;
+      color: var(--primary-color);
+      text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+      margin-bottom: 0.5rem;
     }
     
     .main-wrapper {
@@ -46,61 +58,82 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 15px;
       padding: 2rem;
-      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 2px solid var(--primary-color);
       max-width: 1200px;
-      background: rgba(20, 20, 30, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
+      width: 100%;
     }
     
     .game-canvas {
-      border: 3px solid #00ff41;
+      border: 3px solid var(--primary-color);
       border-radius: 10px;
       background: #000;
-      box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
       display: block;
-      margin: 0 auto;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 0 30px rgba(78, 205, 196, 0.3);
     }
     
     .game-info {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 1000px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
       margin-bottom: 1.5rem;
-      font-size: 1.2rem;
+      text-align: center;
+    }
+    
+    .info-item {
+      background: rgba(78, 205, 196, 0.1);
+      padding: 0.75rem;
+      border-radius: 10px;
+      border: 1px solid var(--primary-color);
       font-weight: bold;
-      text-align: center;
-      padding: 0 1rem;
     }
     
-    .score, .lives, .level {
-      color: #00ff41;
-      text-shadow: 0 0 5px #00ff41;
-    }
-    
-    .game-controls {
-      margin: 1.5rem 0;
-      text-align: center;
-      width: 100%;
+    .controls {
       display: flex;
       justify-content: center;
       gap: 1rem;
+      margin-bottom: 1.5rem;
       flex-wrap: wrap;
     }
     
+    .game-button {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: var(--bg-dark);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+    }
+
+    .game-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+    }
+
     .instructions {
       background: rgba(0, 0, 0, 0.3);
       padding: 1.5rem;
       border-radius: 10px;
-      margin-top: 1.5rem;
-      max-width: 600px;
-      text-align: center;
-      border: 1px solid #00ff41;
-      width: 100%;
+      border: 1px solid var(--primary-color);
+    }
+
+    .instructions h3 {
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .instructions p {
+      color: var(--text-color);
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
     }
     
     .game-over {
@@ -112,17 +145,16 @@
       padding: 2rem;
       border-radius: 15px;
       text-align: center;
-      border: 2px solid #ff6b35;
-      display: none;
-      z-index: 200;
+      border: 2px solid var(--primary-color);
+      z-index: 150;
       min-width: 300px;
-      box-shadow: 0 0 50px rgba(255, 107, 53, 0.5);
+      box-shadow: 0 0 50px rgba(78, 205, 196, 0.5);
     }
     
     .game-over h2 {
-      color: #ff6b35;
+      color: var(--primary-color);
       margin-bottom: 1rem;
-      text-shadow: 0 0 10px #ff6b35;
+      text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
     }
     
     .paused {
@@ -134,17 +166,17 @@
       padding: 2rem;
       border-radius: 15px;
       text-align: center;
-      border: 2px solid #ffaa00;
+      border: 2px solid var(--secondary-color);
       display: none;
       z-index: 200;
       min-width: 300px;
-      box-shadow: 0 0 50px rgba(255, 170, 0, 0.5);
+      box-shadow: 0 0 50px rgba(69, 183, 170, 0.5);
     }
     
     .paused h2 {
-      color: #ffaa00;
+      color: var(--secondary-color);
       margin-bottom: 1rem;
-      text-shadow: 0 0 10px #ffaa00;
+      text-shadow: 0 0 10px var(--secondary-color);
     }
     
     .leaderboard {
@@ -266,14 +298,23 @@
   <div class="main-wrapper">
     <div class="game-container">
     <div class="game-info">
-      <div class="score">SCORE: <span id="score">0</span></div>
-      <div class="level">LEVEL: <span id="level">1</span></div>
-      <div class="lives">LIVES: <span id="lives">3</span></div>
+      <div class="info-item score">
+        SCORE: <span id="score">0</span>
+      </div>
+      <div class="info-item lives">
+        LIVES: <span id="lives">3</span>
+      </div>
+      <div class="info-item level">
+        LEVEL: <span id="level">1</span>
+      </div>
+      <div class="info-item invaders">
+        INVADERS: <span id="invaders">50</span>
+      </div>
     </div>
     
     <canvas id="gameCanvas" class="game-canvas" width="1000" height="700"></canvas>
     
-    <div class="game-controls">
+    <div class="controls">
       <button class="game-button" onclick="startGame()">🚀 START GAME</button>
       <button class="game-button" onclick="pauseGame()">⏸️ PAUSE</button>
       <button class="game-button" onclick="resetGame()">🔄 RESET</button>
