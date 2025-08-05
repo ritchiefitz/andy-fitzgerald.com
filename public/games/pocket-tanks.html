@@ -1,327 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pocket Tanks - Epic Artillery Combat</title>
-  <style>
-    :root {
-      --primary-color: #00ff41;
-      --secondary-color: #ffaa00;
-      --danger-color: #ff6b35;
-      --background-dark: #0a0a0a;
-      --text-primary: #ffffff;
-      --text-secondary: #cccccc;
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  
+  <!-- Primary Meta Tags -->
+  <title>Pocket Tanks - Turn-Based Artillery Combat | Andy's Epic Gaming Zone</title>
+  <meta name='title' content='Pocket Tanks - Turn-Based Artillery Combat'>
+  <meta name='description' content='Epic turn-based artillery combat with destructible terrain and explosive weapons! Strategic tank battles with physics-based gameplay.'>
+  <meta name='keywords' content='pocket tanks, artillery game, tank game, turn-based strategy, destructible terrain, physics game'>
+  <meta name='robots' content='index, follow'>
+  <meta name='language' content='English'>
+  <meta name='author' content='Andy Fitzgerald'>
+  
+  <!-- Open Graph / Facebook -->
+  <meta property='og:type' content='website'>
+  <meta property='og:url' content='https://andy-fitzgerald.com/games/pocket-tanks.html'>
+  <meta property='og:title' content='Pocket Tanks - Turn-Based Artillery Combat'>
+  <meta property='og:description' content='Epic turn-based artillery combat with destructible terrain and explosive weapons! Strategic tank battles with physics-based gameplay.'>
+  <meta property='og:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
+  <meta property='og:site_name' content='Andy\'s Epic Gaming Zone'>
+  
+  <!-- Twitter -->
+  <meta property='twitter:card' content='summary_large_image'>
+  <meta property='twitter:url' content='https://andy-fitzgerald.com/games/pocket-tanks.html'>
+  <meta property='twitter:title' content='Pocket Tanks - Turn-Based Artillery Combat'>
+  <meta property='twitter:description' content='Epic turn-based artillery combat with destructible terrain and explosive weapons! Strategic tank battles with physics-based gameplay.'>
+  <meta property='twitter:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
+  
+  <!-- Favicon -->
+  <link rel='icon' type='image/png' href='/favicon.png'>
+  <link rel='apple-touch-icon' href='/favicon.png'>
+  
+  <!-- Canonical URL -->
+  <link rel='canonical' href='https://andy-fitzgerald.com/games/pocket-tanks.html'>
+  
+  <!-- Stylesheets -->
+  <link rel='stylesheet' href='../css/styles.css'>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Game",
+    "name": "Pocket Tanks",
+    "description": "Epic turn-based artillery combat with destructible terrain and explosive weapons! Strategic tank battles with physics-based gameplay.",
+    "url": "https://andy-fitzgerald.com/games/pocket-tanks.html",
+    "genre": "Arcade",
+    "gamePlatform": "Web Browser",
+    "operatingSystem": "Any",
+    "applicationCategory": "Game",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Andy Fitzgerald"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Andy's Epic Gaming Zone",
+      "url": "https://andy-fitzgerald.com"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Andy's Epic Gaming Zone",
+      "url": "https://andy-fitzgerald.com"
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-      color: var(--text-primary);
-      font-family: 'Courier New', monospace;
-      min-height: 100vh;
-      margin: 0;
-      padding: 1rem;
-    }
-    
-    .back-button {
-      position: fixed;
-      top: 2rem;
-      left: 2rem;
-      padding: 0.75rem 1.5rem;
-      background: #4ecdc4;
-      color: white;
-      text-decoration: none;
-      border-radius: 25px;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      z-index: 1000;
-    }
-    
-    .back-button:hover {
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
-    }
-    
-    .game-header {
-      text-align: center;
-      padding: 1rem;
-      background: rgba(20, 20, 30, 0.95);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-      position: relative;
-      z-index: 100;
-      margin-bottom: 1rem;
-    }
-    
-    .game-header h1 {
-      font-size: 2.5rem;
-      margin: 0;
-      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
-    }
-    
-    .main-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-      width: 100%;
-    }
-
-    .game-container {
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: 20px;
-      padding: 2rem;
-      border: 2px solid var(--primary-color);
-      box-shadow: 0 0 50px rgba(0, 255, 65, 0.3);
-      backdrop-filter: blur(10px);
-      max-width: 1000px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-
-
-    .game-info {
-      display: grid;
-      grid-template-columns: 1fr 2fr 1fr;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      padding: 1rem;
-      background: rgba(0, 255, 65, 0.1);
-      border-radius: 10px;
-      border: 1px solid var(--primary-color);
-    }
-
-    .player-info {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .player-name {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-
-    .player1 { color: var(--primary-color); }
-    .player2 { color: var(--danger-color); }
-
-    .health-bar {
-      width: 100px;
-      height: 10px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 5px;
-      overflow: hidden;
-    }
-
-    .health-fill {
-      height: 100%;
-      transition: width 0.3s ease;
-    }
-
-    .health-fill.player1 { background: var(--primary-color); }
-    .health-fill.player2 { background: var(--danger-color); }
-
-    .game-canvas {
-      border: 2px solid var(--primary-color);
-      border-radius: 10px;
-      background: linear-gradient(180deg, #87CEEB 0%, #98FB98 70%, #8B4513 100%);
-      display: block;
-      margin: 0 auto 1rem;
-      box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
-    }
-
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .control-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .control-group label {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-    }
-
-    .control-input {
-      background: rgba(0, 0, 0, 0.8);
-      border: 2px solid var(--primary-color);
-      color: var(--text-primary);
-      padding: 0.5rem;
-      border-radius: 5px;
-      font-family: 'Courier New', monospace;
-      width: 80px;
-      text-align: center;
-    }
-
-    .control-input:focus {
-      outline: none;
-      border-color: var(--secondary-color);
-      box-shadow: 0 0 10px rgba(255, 170, 0, 0.5);
-    }
-
-    .weapon-select {
-      width: 150px;
-    }
-
-    .game-button {
-      background: linear-gradient(45deg, var(--primary-color), #00cc33);
-      color: var(--background-dark);
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-family: 'Courier New', monospace;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      box-shadow: 0 4px 15px rgba(0, 255, 65, 0.3);
-    }
-
-    .game-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 255, 65, 0.5);
-    }
-
-    .game-button:active {
-      transform: translateY(0);
-    }
-
-    .game-button.fire {
-      background: linear-gradient(45deg, var(--danger-color), #ff4500);
-      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
-    }
-
-    .game-button.fire:hover {
-      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
-    }
-
-    .turn-indicator {
-      text-align: center;
-      font-size: 1.2rem;
-      margin: 0;
-      padding: 0.75rem 1rem;
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
-      border: 2px solid;
-      animation: pulse 2s ease-in-out infinite;
-      white-space: nowrap;
-    }
-
-    .turn-indicator.player1 {
-      border-color: var(--primary-color);
-      color: var(--primary-color);
-    }
-
-    .turn-indicator.player2 {
-      border-color: var(--danger-color);
-      color: var(--danger-color);
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-
-    .game-over {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.95);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      border: 2px solid var(--secondary-color);
-      display: none;
-      z-index: 100;
-      min-width: 300px;
-      box-shadow: 0 0 50px rgba(255, 170, 0, 0.5);
-    }
-
-    .game-over h2 {
-      color: var(--secondary-color);
-      margin-bottom: 1rem;
-      text-shadow: 0 0 10px var(--secondary-color);
-    }
-
-    .instructions {
-      text-align: center;
-      margin-top: 1rem;
-      padding: 1rem;
-      background: rgba(0, 255, 65, 0.1);
-      border-radius: 10px;
-      border: 1px solid var(--primary-color);
-    }
-
-    .instructions h3 {
-      color: var(--primary-color);
-      margin-bottom: 0.5rem;
-    }
-
-    .instructions p {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      line-height: 1.4;
-    }
-
-    @media (max-width: 768px) {
-      .game-canvas {
-        width: 90vw !important;
-        height: 300px !important;
-      }
-      
-      .controls {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .game-info {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
-        text-align: center;
-      }
-      
-      .turn-indicator {
-        font-size: 1rem;
-        padding: 0.5rem;
-      }
-      
-      .back-button {
-        position: static;
-        display: block;
-        margin: 1rem auto;
-        width: fit-content;
-      }
-      
-      .game-header h1 {
-        font-size: 2rem;
-      }
-    }
-  </style>
+  }
+  </script>
 </head>
 <body>
   <a href="../index.html" class="back-button">🏠 Back to Gaming Zone</a>
@@ -331,7 +80,14 @@
   </div>
   
   <div class="main-wrapper">
-    <div class="game-container">
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+      <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+      <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
+    </div>
+    
+    <div class="content-wrapper">
+      <div class="game-container">
     
     <div class="game-info">
       <div class="player-info">
@@ -395,7 +151,14 @@
         <strong>🔄 Turns:</strong> Take turns firing until one tank is destroyed
       </p>
     </div>
-  </div>
+    </div>
+    </div>
+    
+    <!-- Right Sidebar -->
+    <div class="sidebar">
+      <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+      <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
+    </div>
   </div>
   </div>
 

@@ -3,8 +3,74 @@
 <head>
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <title>Space Invaders - Andy's Epic Gaming Zone! 🚀</title>
+  
+  <!-- Primary Meta Tags -->
+  <title>Space Invaders - Free Online Retro Arcade Game | Andy's Epic Gaming Zone</title>
+  <meta name='title' content='Space Invaders - Free Online Retro Arcade Game'>
+  <meta name='description' content='Play the classic Space Invaders game online for free! Defend Earth from alien invasion in this retro arcade shooter. Perfect for kids and retro gaming fans at Andy\'s Epic Gaming Zone.'>
+  <meta name='keywords' content='space invaders, free online game, retro arcade game, alien shooter, classic arcade, browser game, kids game, space game'>
+  <meta name='robots' content='index, follow'>
+  <meta name='language' content='English'>
+  <meta name='author' content='Andy Fitzgerald'>
+  
+  <!-- Open Graph / Facebook -->
+  <meta property='og:type' content='website'>
+  <meta property='og:url' content='https://andy-fitzgerald.com/games/space-invaders.html'>
+  <meta property='og:title' content='Space Invaders - Free Online Retro Arcade Game'>
+  <meta property='og:description' content='Play the classic Space Invaders game online for free! Defend Earth from alien invasion in this retro arcade shooter.'>
+  <meta property='og:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
+  <meta property='og:site_name' content='Andy\'s Epic Gaming Zone'>
+  
+  <!-- Twitter -->
+  <meta property='twitter:card' content='summary_large_image'>
+  <meta property='twitter:url' content='https://andy-fitzgerald.com/games/space-invaders.html'>
+  <meta property='twitter:title' content='Space Invaders - Free Online Retro Arcade Game'>
+  <meta property='twitter:description' content='Play the classic Space Invaders game online for free! Defend Earth from alien invasion.'>
+  <meta property='twitter:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
+  
+  <!-- Favicon -->
+  <link rel='icon' type='image/png' href='/favicon.png'>
+  <link rel='apple-touch-icon' href='/favicon.png'>
+  
+  <!-- Canonical URL -->
+  <link rel='canonical' href='https://andy-fitzgerald.com/games/space-invaders.html'>
+  
+  <!-- Stylesheets -->
   <link rel='stylesheet' href='../css/styles.css'>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Game",
+    "name": "Space Invaders",
+    "description": "Defend Earth from alien invasion in this retro arcade classic! Play the timeless Space Invaders game with modern enhancements.",
+    "url": "https://andy-fitzgerald.com/games/space-invaders.html",
+    "genre": "Arcade",
+    "gamePlatform": "Web Browser",
+    "operatingSystem": "Any",
+    "applicationCategory": "Game",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Andy Fitzgerald"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Andy's Epic Gaming Zone",
+      "url": "https://andy-fitzgerald.com"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Andy's Epic Gaming Zone",
+      "url": "https://andy-fitzgerald.com"
+    }
+  }
+  </script>
   <style>
     :root {
       --primary-color: #4ecdc4;
@@ -48,10 +114,58 @@
     
     .main-wrapper {
       display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex: 1;
+      padding: 1rem;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    
+    .content-wrapper {
+      display: flex;
       flex-direction: column;
       align-items: center;
       flex: 1;
-      padding: 1rem 0;
+      padding: 0 1rem;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      padding: 1.5rem;
+      border: 2px solid var(--primary-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      height: fit-content;
+    }
+
+    .sidebar-image {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .donate-link {
+      display: inline-block;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: var(--bg-dark);
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+    }
+
+    .donate-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
     }
     
     .game-container {
@@ -184,24 +298,24 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.95);
+      background: rgba(26, 37, 47, 0.95);
       padding: 2rem;
       border-radius: 15px;
       text-align: center;
-      border: 2px solid #00ff41;
+      border: 2px solid #4ecdc4;
       display: none;
       z-index: 200;
       min-width: 400px;
       max-width: 90vw;
-      box-shadow: 0 0 50px rgba(0, 255, 65, 0.5);
+      box-shadow: 0 0 50px rgba(78, 205, 196, 0.5);
       max-height: 80vh;
       overflow-y: auto;
     }
     
     .leaderboard h2 {
-      color: #00ff41;
+      color: #4ecdc4;
       margin-bottom: 1.5rem;
-      text-shadow: 0 0 10px #00ff41;
+      text-shadow: 0 0 10px #4ecdc4;
     }
     
     .leaderboard-list {
@@ -214,9 +328,9 @@
       justify-content: space-between;
       padding: 0.5rem;
       margin: 0.25rem 0;
-      background: rgba(0, 255, 65, 0.1);
+      background: rgba(78, 205, 196, 0.1);
       border-radius: 5px;
-      border-left: 3px solid #00ff41;
+      border-left: 3px solid #4ecdc4;
     }
     
     .leaderboard-entry.new-score {
@@ -271,6 +385,16 @@
       box-shadow: 0 0 10px rgba(255, 170, 0, 0.5);
     }
     
+    @media (max-width: 1200px) {
+      .sidebar {
+        display: none;
+      }
+      
+      .main-wrapper {
+        justify-content: center;
+      }
+    }
+    
     @media (max-width: 768px) {
       .game-canvas {
         width: 90vw !important;
@@ -296,7 +420,14 @@
   </div>
   
   <div class="main-wrapper">
-    <div class="game-container">
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+      <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+      <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
+    </div>
+    
+    <div class="content-wrapper">
+      <div class="game-container">
     <div class="game-info">
       <div class="info-item score">
         SCORE: <span id="score">0</span>
@@ -326,6 +457,13 @@
       <p><strong>ARROW KEYS</strong> or <strong>A/D</strong> to move • <strong>SPACEBAR</strong> to shoot</p>
       <p>Destroy all invaders before they reach Earth! Watch out for UFO bonuses! 🛸</p>
     </div>
+    </div>
+    </div>
+    
+    <!-- Right Sidebar -->
+    <div class="sidebar">
+      <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+      <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
     </div>
   </div>
   
@@ -445,6 +583,11 @@
     function showLeaderboard() {
       displayLeaderboard();
       document.getElementById('leaderboard').style.display = 'block';
+    }
+    
+    function updateInvadersDisplay() {
+      const aliveCount = invaders.filter(inv => inv.alive).length;
+      document.getElementById('invaders').textContent = aliveCount;
     }
     
     function hideLeaderboard() {
@@ -711,6 +854,7 @@
             invader.alive = false;
             bullets.splice(bulletIndex, 1);
             score += invader.points;
+            updateInvadersDisplay();
             createParticles(invader.x + invader.width/2, invader.y + invader.height/2, invader.color);
           }
         });
@@ -932,6 +1076,7 @@
       document.getElementById('score').textContent = score;
       document.getElementById('lives').textContent = lives;
       document.getElementById('level').textContent = level;
+      updateInvadersDisplay();
     }
     
     // Game loop

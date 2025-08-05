@@ -1,195 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🧩 Puzzle Path | Gaming Zone</title>
-  <style>
-    :root {
-      --primary-color: #4ecdc4;
-      --secondary-color: #45b7aa;
-      --accent-color: #96ceb4;
-      --text-color: #ffffff;
-      --bg-dark: #2c3e50;
-      --bg-darker: #1a252f;
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  
+  <!-- Primary Meta Tags -->
+  <title>Puzzle Path - Brain-Teasing Maze Game | Andy's Epic Gaming Zone</title>
+  <meta name='title' content='Puzzle Path - Brain-Teasing Maze Game'>
+  <meta name='description' content='Navigate challenging mazes, collect gems, and find the exit in this brain-teasing adventure! Multiple difficulty levels and timer challenges.'>
+  <meta name='keywords' content='puzzle game, maze game, brain teaser, puzzle path, kids puzzle, logic game, maze solver'>
+  <meta name='robots' content='index, follow'>
+  <meta name='language' content='English'>
+  <meta name='author' content='Andy Fitzgerald'>
+  
+  <!-- Open Graph / Facebook -->
+  <meta property='og:type' content='website'>
+  <meta property='og:url' content='https://andy-fitzgerald.com/games/puzzle-path.html'>
+  <meta property='og:title' content='Puzzle Path - Brain-Teasing Maze Game'>
+  <meta property='og:description' content='Navigate challenging mazes, collect gems, and find the exit in this brain-teasing adventure! Multiple difficulty levels and timer challenges.'>
+  <meta property='og:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
+  <meta property='og:site_name' content='Andy\'s Epic Gaming Zone'>
+  
+  <!-- Twitter -->
+  <meta property='twitter:card' content='summary_large_image'>
+  <meta property='twitter:url' content='https://andy-fitzgerald.com/games/puzzle-path.html'>
+  <meta property='twitter:title' content='Puzzle Path - Brain-Teasing Maze Game'>
+  <meta property='twitter:description' content='Navigate challenging mazes, collect gems, and find the exit in this brain-teasing adventure! Multiple difficulty levels and timer challenges.'>
+  <meta property='twitter:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
+  
+  <!-- Favicon -->
+  <link rel='icon' type='image/png' href='/favicon.png'>
+  <link rel='apple-touch-icon' href='/favicon.png'>
+  
+  <!-- Canonical URL -->
+  <link rel='canonical' href='https://andy-fitzgerald.com/games/puzzle-path.html'>
+  
+  <!-- Stylesheets -->
+  <link rel='stylesheet' href='../css/styles.css'>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Game",
+    "name": "Puzzle Path",
+    "description": "Navigate challenging mazes, collect gems, and find the exit in this brain-teasing adventure! Multiple difficulty levels and timer challenges.",
+    "url": "https://andy-fitzgerald.com/games/puzzle-path.html",
+    "genre": "Arcade",
+    "gamePlatform": "Web Browser",
+    "operatingSystem": "Any",
+    "applicationCategory": "Game",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Andy Fitzgerald"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Andy's Epic Gaming Zone",
+      "url": "https://andy-fitzgerald.com"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Andy's Epic Gaming Zone",
+      "url": "https://andy-fitzgerald.com"
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Courier New', monospace;
-      background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
-      color: var(--text-color);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .back-button {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: var(--primary-color);
-      color: var(--bg-dark);
-      text-decoration: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 25px;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      z-index: 100;
-      box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-    }
-
-    .back-button:hover {
-      background: var(--secondary-color);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
-    }
-
-    .game-header {
-      text-align: center;
-      padding: 2rem 1rem 1rem;
-      background: rgba(0, 0, 0, 0.3);
-      margin-bottom: 2rem;
-    }
-
-    .game-header h1 {
-      font-size: 3rem;
-      color: var(--primary-color);
-      text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
-      margin-bottom: 0.5rem;
-    }
-
-    .main-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: calc(100vh - 200px);
-      padding: 0 1rem;
-    }
-
-    .game-container {
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 15px;
-      padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      border: 2px solid var(--primary-color);
-      max-width: 800px;
-      width: 100%;
-    }
-
-    .game-info {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .info-item {
-      background: rgba(78, 205, 196, 0.1);
-      padding: 0.75rem;
-      border-radius: 10px;
-      border: 1px solid var(--primary-color);
-      font-weight: bold;
-    }
-
-    .game-canvas {
-      border: 3px solid var(--primary-color);
-      border-radius: 10px;
-      background: #000;
-      display: block;
-      margin: 0 auto 1.5rem;
-      box-shadow: 0 0 30px rgba(78, 205, 196, 0.3);
-    }
-
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .game-button {
-      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      color: var(--bg-dark);
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 25px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-    }
-
-    .game-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
-    }
-
-    .difficulty-selector {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .difficulty-button {
-      background: rgba(78, 205, 196, 0.2);
-      color: var(--text-color);
-      border: 2px solid var(--primary-color);
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .difficulty-button.active {
-      background: var(--primary-color);
-      color: var(--bg-dark);
-    }
-
-    .instructions {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 1.5rem;
-      border-radius: 10px;
-      border: 1px solid var(--primary-color);
-      text-align: center;
-    }
-
-    .instructions h3 {
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-    }
-
-    .game-start {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.95);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      border: 2px solid var(--primary-color);
-      z-index: 150;
-      min-width: 300px;
-      box-shadow: 0 0 50px rgba(78, 205, 196, 0.5);
-    }
-
-    .game-start h2 {
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-      text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
-    }
-  </style>
+  }
+  </script>
 </head>
 <body>
   <a href="../index.html" class="back-button">🏠 Back to Gaming Zone</a>
@@ -199,6 +80,12 @@
   </div>
   
   <div class="main-wrapper">
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+      <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+      <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
+    </div>
+    
     <div class="game-container">
       
       <div class="game-info">
@@ -227,6 +114,7 @@
       <div class="controls">
         <button class="game-button" onclick="startGame()">🎮 START GAME</button>
         <button class="game-button" onclick="pauseGame()">⏸️ PAUSE</button>
+        <button class="game-button" onclick="quitGame()">🏁 QUIT</button>
         <button class="game-button" onclick="resetGame()">🔄 RESET</button>
         <button class="game-button" onclick="showLeaderboard()">🏆 LEADERBOARD</button>
       </div>
@@ -240,6 +128,12 @@
         <p><strong>🏆 Difficulty:</strong> Choose Easy (15x15), Medium (21x21), or Hard (27x27) mazes</p>
       </div>
     </div>
+    
+    <!-- Right Sidebar -->
+    <div class="sidebar">
+      <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+      <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
+    </div>
   </div>
 
   <div class="game-start" id="gameStart">
@@ -247,6 +141,32 @@
     <p>Navigate through challenging mazes!</p>
     <p>Collect all gems and find the exit!</p>
     <button class="game-button" onclick="startGame()">🎮 START PUZZLE!</button>
+    <button class="game-button" onclick="showLeaderboard()">🏆 LEADERBOARD</button>
+  </div>
+
+  <div class="game-over" id="gameOver">
+    <h2>PUZZLE COMPLETE!</h2>
+    <p>Final Score: <span id="finalScore">0</span></p>
+    <p>Level Reached: <span id="finalLevel">1</span></p>
+    <button class="game-button" onclick="resetGame()">🔄 PLAY AGAIN</button>
+  </div>
+
+  <div class="leaderboard" id="leaderboard">
+    <h2>🏆 PUZZLE PATH LEADERBOARD 🏆</h2>
+    <div class="leaderboard-list" id="leaderboardList">
+      <!-- Leaderboard entries will be populated here -->
+    </div>
+    <button class="game-button" onclick="hideLeaderboard()">✖️ CLOSE</button>
+  </div>
+
+  <div class="name-entry" id="nameEntry">
+    <h2>🎉 NEW HIGH SCORE! 🎉</h2>
+    <p>You solved the puzzles like a true maze master!</p>
+    <p>Score: <span id="newScoreDisplay">0</span></p>
+    <input type="text" id="playerName" placeholder="Enter your name" maxlength="15" autocomplete="off">
+    <br>
+    <button class="game-button" onclick="submitScore()">✅ SUBMIT</button>
+    <button class="game-button" onclick="skipScore()">⏭️ SKIP</button>
   </div>
 
   <script>
@@ -268,6 +188,10 @@
     let exit = { x: 0, y: 0 };
     let gems = [];
     let collectedGems = 0;
+    
+    // Leaderboard system
+    let leaderboard = [];
+    let newScoreIndex = -1;
     
     // Difficulty settings
     const difficultySettings = {
@@ -411,6 +335,20 @@
       // Time bonus
       const timeBonus = Math.max(0, difficultySettings[difficulty].timeBonus * 100 - Math.floor(elapsedTime / 1000) * 10);
       score += timeBonus + 500; // Level completion bonus
+      
+      // Check if game should end (after completing 10 levels)
+      if (level > 10) {
+        gameState = 'gameOver';
+        // Check if score qualifies for leaderboard
+        if (isHighScore(score)) {
+          showNameEntry();
+        } else {
+          document.getElementById('finalScore').textContent = score.toLocaleString();
+          document.getElementById('finalLevel').textContent = level - 1; // Show completed levels
+          document.getElementById('gameOver').style.display = 'block';
+        }
+        return;
+      }
       
       generateMaze();
       draw();
@@ -575,12 +513,147 @@
       }
     });
     
-    // Placeholder leaderboard functions
-    function showLeaderboard() {
-      alert('Leaderboard coming soon!');
+    // Leaderboard functions
+    function loadLeaderboard() {
+      const saved = localStorage.getItem('puzzlePathLeaderboard');
+      if (saved) {
+        leaderboard = JSON.parse(saved);
+      } else {
+        leaderboard = [
+          {name: 'PUZZLE MASTER', score: 5000, level: 10},
+          {name: 'MAZE RUNNER', score: 4200, level: 8},
+          {name: 'GEM HUNTER', score: 3800, level: 7},
+          {name: 'PATH FINDER', score: 3200, level: 6},
+          {name: 'EXPLORER', score: 2800, level: 5},
+          {name: 'NAVIGATOR', score: 2400, level: 4},
+          {name: 'SOLVER', score: 2000, level: 4},
+          {name: 'SEEKER', score: 1600, level: 3},
+          {name: 'WANDERER', score: 1200, level: 2},
+          {name: 'ROOKIE', score: 800, level: 1}
+        ];
+        saveLeaderboard();
+      }
     }
     
+    function saveLeaderboard() {
+      localStorage.setItem('puzzlePathLeaderboard', JSON.stringify(leaderboard));
+    }
+    
+    function isHighScore(score) {
+      return leaderboard.length < 10 || score > leaderboard[leaderboard.length - 1].score;
+    }
+    
+    function addToLeaderboard(name, score, level) {
+      const entry = {name: name.toUpperCase(), score: score, level: level};
+      leaderboard.push(entry);
+      leaderboard.sort((a, b) => b.score - a.score);
+      
+      if (leaderboard.length > 10) {
+        leaderboard = leaderboard.slice(0, 10);
+      }
+      
+      newScoreIndex = leaderboard.findIndex(e => e.name === entry.name && e.score === entry.score && e.level === entry.level);
+      saveLeaderboard();
+    }
+    
+    function showLeaderboard() {
+      displayLeaderboard();
+      document.getElementById('leaderboard').style.display = 'block';
+    }
+    
+    function hideLeaderboard() {
+      document.getElementById('leaderboard').style.display = 'none';
+      newScoreIndex = -1;
+    }
+    
+    function displayLeaderboard() {
+      const listElement = document.getElementById('leaderboardList');
+      listElement.innerHTML = '';
+      
+      if (leaderboard.length === 0) {
+        listElement.innerHTML = '<p>No scores yet! Be the first to play!</p>';
+        return;
+      }
+      
+      leaderboard.forEach((entry, index) => {
+        const entryDiv = document.createElement('div');
+        entryDiv.className = 'leaderboard-entry';
+        if (index === newScoreIndex) {
+          entryDiv.classList.add('new-score');
+        }
+        
+        entryDiv.innerHTML = `
+          <div>
+            <strong>#${index + 1} ${entry.name}</strong>
+            <div style="font-size: 0.8em; color: #96ceb4;">Level ${entry.level}</div>
+          </div>
+          <div style="text-align: right;">
+            <strong>${entry.score.toLocaleString()}</strong>
+            <div style="font-size: 0.8em; color: #96ceb4;">points</div>
+          </div>
+        `;
+        
+        listElement.appendChild(entryDiv);
+      });
+    }
+    
+    function showNameEntry() {
+      document.getElementById('newScoreDisplay').textContent = score.toLocaleString();
+      document.getElementById('nameEntry').style.display = 'block';
+      document.getElementById('playerName').focus();
+    }
+    
+    function submitScore() {
+      const name = document.getElementById('playerName').value.trim() || 'ANONYMOUS';
+      addToLeaderboard(name, score, level);
+      document.getElementById('nameEntry').style.display = 'none';
+      showLeaderboard();
+    }
+    
+    function skipScore() {
+      document.getElementById('nameEntry').style.display = 'none';
+      gameState = 'gameOver';
+      document.getElementById('finalScore').textContent = score.toLocaleString();
+      document.getElementById('finalLevel').textContent = level;
+      document.getElementById('gameOver').style.display = 'block';
+    }
+    
+    function quitGame() {
+      if (gameState === 'playing' && score > 0) {
+        gameState = 'gameOver';
+        // Check if score qualifies for leaderboard
+        if (isHighScore(score)) {
+          showNameEntry();
+        } else {
+          document.getElementById('finalScore').textContent = score.toLocaleString();
+          document.getElementById('finalLevel').textContent = level;
+          document.getElementById('gameOver').style.display = 'block';
+        }
+      }
+    }
+    
+    function resetGame() {
+      gameState = 'start';
+      score = 0;
+      level = 1;
+      collectedGems = 0;
+      document.getElementById('gameOver').style.display = 'none';
+      document.getElementById('gameStart').style.display = 'block';
+      hideLeaderboard();
+      generateMaze();
+      draw();
+      updateUI();
+    }
+    
+    // Handle Enter key in name input
+    document.getElementById('playerName').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        submitScore();
+      }
+    });
+    
     // Initialize
+    loadLeaderboard();
     generateMaze();
     draw();
   </script>

@@ -1,307 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mine-Man - Andy's Epic Gaming Zone! ⛏️</title>
-  <style>
-    :root {
-      --primary-color: #4ecdc4;
-      --secondary-color: #45b7aa;
-      --accent-color: #96ceb4;
-      --text-color: #ffffff;
-      --bg-dark: #2c3e50;
-      --bg-darker: #1a252f;
-      --danger-color: #ff6b35;
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  
+  <!-- Primary Meta Tags -->
+  <title>Mine-Man - Minecraft Pac-Man Game | Andy's Epic Gaming Zone</title>
+  <meta name='title' content='Mine-Man - Minecraft Pac-Man Game'>
+  <meta name='description' content='Help Steve collect diamonds while avoiding Minecraft mobs in this epic maze adventure! A fun Minecraft-themed Pac-Man spoof perfect for kids.'>
+  <meta name='keywords' content='minecraft pacman, mine-man, steve minecraft, minecraft game, maze game, kids game, minecraft mobs'>
+  <meta name='robots' content='index, follow'>
+  <meta name='language' content='English'>
+  <meta name='author' content='Andy Fitzgerald'>
+  
+  <!-- Open Graph / Facebook -->
+  <meta property='og:type' content='website'>
+  <meta property='og:url' content='https://andy-fitzgerald.com/games/mine-man.html'>
+  <meta property='og:title' content='Mine-Man - Minecraft Pac-Man Game'>
+  <meta property='og:description' content='Help Steve collect diamonds while avoiding Minecraft mobs in this epic maze adventure! A fun Minecraft-themed Pac-Man spoof perfect for kids.'>
+  <meta property='og:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
+  <meta property='og:site_name' content='Andy\'s Epic Gaming Zone'>
+  
+  <!-- Twitter -->
+  <meta property='twitter:card' content='summary_large_image'>
+  <meta property='twitter:url' content='https://andy-fitzgerald.com/games/mine-man.html'>
+  <meta property='twitter:title' content='Mine-Man - Minecraft Pac-Man Game'>
+  <meta property='twitter:description' content='Help Steve collect diamonds while avoiding Minecraft mobs in this epic maze adventure! A fun Minecraft-themed Pac-Man spoof perfect for kids.'>
+  <meta property='twitter:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
+  
+  <!-- Favicon -->
+  <link rel='icon' type='image/png' href='/favicon.png'>
+  <link rel='apple-touch-icon' href='/favicon.png'>
+  
+  <!-- Canonical URL -->
+  <link rel='canonical' href='https://andy-fitzgerald.com/games/mine-man.html'>
+  
+  <!-- Stylesheets -->
+  <link rel='stylesheet' href='../css/styles.css'>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Game",
+    "name": "Mine-Man",
+    "description": "Help Steve collect diamonds while avoiding Minecraft mobs in this epic maze adventure! A fun Minecraft-themed Pac-Man spoof perfect for kids.",
+    "url": "https://andy-fitzgerald.com/games/mine-man.html",
+    "genre": "Arcade",
+    "gamePlatform": "Web Browser",
+    "operatingSystem": "Any",
+    "applicationCategory": "Game",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Andy Fitzgerald"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Andy's Epic Gaming Zone",
+      "url": "https://andy-fitzgerald.com"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Andy's Epic Gaming Zone",
+      "url": "https://andy-fitzgerald.com"
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
-      color: var(--text-color);
-      font-family: 'Courier New', monospace;
-      min-height: 100vh;
-      margin: 0;
-    }
-    
-    .back-button {
-      position: fixed;
-      top: 2rem;
-      left: 2rem;
-      padding: 0.75rem 1.5rem;
-      background: var(--primary-color);
-      color: var(--bg-dark);
-      text-decoration: none;
-      border-radius: 25px;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      z-index: 1000;
-      box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-    }
-    
-    .back-button:hover {
-      background: var(--secondary-color);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
-    }
-    
-    .game-header {
-      text-align: center;
-      padding: 2rem 1rem 1rem;
-      background: rgba(0, 0, 0, 0.3);
-      margin-bottom: 2rem;
-    }
-    
-    .game-header h1 {
-      font-size: 3rem;
-      color: var(--primary-color);
-      text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
-      margin-bottom: 0.5rem;
-    }
-    
-    .main-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-      width: 100%;
-    }
-
-    .game-container {
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 15px;
-      padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      border: 2px solid var(--primary-color);
-      max-width: 800px;
-      width: 100%;
-    }
-
-    .game-info {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .info-item {
-      background: rgba(78, 205, 196, 0.1);
-      padding: 0.75rem;
-      border-radius: 10px;
-      border: 1px solid var(--primary-color);
-      font-weight: bold;
-    }
-
-    .score { color: var(--secondary-color); }
-    .level { color: var(--primary-color); }
-    .lives { color: var(--danger-color); }
-
-    .game-canvas {
-      border: 3px solid var(--primary-color);
-      border-radius: 10px;
-      background: #000;
-      display: block;
-      margin: 0 auto 1.5rem;
-      box-shadow: 0 0 30px rgba(78, 205, 196, 0.3);
-    }
-
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .game-button {
-      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      color: var(--bg-dark);
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 25px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-    }
-
-    .game-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
-    }
-
-    .instructions {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 1.5rem;
-      border-radius: 10px;
-      border: 1px solid var(--primary-color);
-    }
-
-    .instructions h3 {
-      color: var(--primary-color);
-      margin-bottom: 0.5rem;
-    }
-
-    .instructions p {
-      color: var(--text-color);
-      margin-bottom: 0.5rem;
-      line-height: 1.6;
-    }
-
-    .mob-info {
-      display: flex;
-      justify-content: space-around;
-      margin: 1rem 0;
-      flex-wrap: wrap;
-    }
-    
-    .mob-card {
-      background: rgba(78, 205, 196, 0.1);
-      border: 1px solid var(--primary-color);
-      border-radius: 8px;
-      padding: 0.5rem;
-      margin: 0.25rem;
-      text-align: center;
-      min-width: 100px;
-    }
-    
-    .mob-card h4 {
-      margin: 0 0 0.25rem 0;
-      color: var(--primary-color);
-    }
-    
-    .mob-card p {
-      margin: 0;
-      font-size: 0.8rem;
-      color: var(--text-color);
-    }
-    
-    .leaderboard {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.95);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      border: 2px solid #4ecdc4;
-      display: none;
-      z-index: 200;
-      min-width: 400px;
-      max-width: 90vw;
-      box-shadow: 0 0 50px rgba(78, 205, 196, 0.5);
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-    
-    .leaderboard h2 {
-      color: #4ecdc4;
-      margin-bottom: 1.5rem;
-      text-shadow: 0 0 10px #4ecdc4;
-    }
-    
-    .leaderboard-list {
-      margin: 1rem 0;
-      text-align: left;
-    }
-    
-    .leaderboard-entry {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.5rem;
-      margin: 0.25rem 0;
-      background: rgba(78, 205, 196, 0.1);
-      border-radius: 5px;
-      border-left: 3px solid #4ecdc4;
-    }
-    
-    .leaderboard-entry.new-score {
-      background: rgba(255, 170, 0, 0.2);
-      border-left-color: #ffaa00;
-      animation: glow 2s ease-in-out infinite alternate;
-    }
-    
-    .high-score-input {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.95);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      border: 2px solid #ffaa00;
-      z-index: 300;
-      min-width: 350px;
-      box-shadow: 0 0 50px rgba(255, 170, 0, 0.5);
-    }
-    
-    .high-score-input h2 {
-      color: #ffaa00;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 10px #ffaa00;
-    }
-    .creeper { color: #32CD32; }
-    .drowned { color: #4682B4; }
-
-    .game-over, .game-start {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.95);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      border: 2px solid var(--secondary-color);
-      z-index: 100;
-      min-width: 300px;
-      box-shadow: 0 0 50px rgba(255, 170, 0, 0.5);
-    }
-
-    .game-over h2, .game-start h2 {
-      color: var(--secondary-color);
-      margin-bottom: 1rem;
-      text-shadow: 0 0 10px var(--secondary-color);
-    }
-
-    @media (max-width: 768px) {
-      .game-canvas {
-        width: 90vw !important;
-        height: 90vw !important;
-        max-width: 400px !important;
-        max-height: 400px !important;
-      }
-      
-      .game-info {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-      }
-      
-      .mob-info {
-        grid-template-columns: 1fr;
-      }
-      
-      .back-button {
-        position: static;
-        display: block;
-        margin: 1rem auto;
-        width: fit-content;
-      }
-      
-      .game-header h1 {
-        font-size: 2rem;
-      }
-    }
-  </style>
+  }
+  </script>
 </head>
 <body>
   <a href="../index.html" class="back-button">🏠 Back to Gaming Zone</a>
@@ -311,7 +80,14 @@
   </div>
   
   <div class="main-wrapper">
-    <div class="game-container">
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+      <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+      <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
+    </div>
+    
+    <div class="content-wrapper">
+      <div class="game-container">
       
       <div class="game-info">
         <div class="info-item score">
@@ -360,6 +136,13 @@
           </div>
         </div>
       </div>
+    </div>
+    </div>
+    
+    <!-- Right Sidebar -->
+    <div class="sidebar">
+      <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+      <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
     </div>
   </div>
 
