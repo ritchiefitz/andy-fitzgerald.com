@@ -1,40 +1,46 @@
 <!DOCTYPE html>
 <html lang='en'>
+
 <head>
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  
+
   <!-- Primary Meta Tags -->
   <title>Andy's Epic Gaming Zone - Free Online Games for Kids | Space Invaders, Snake, Puzzle Games</title>
-  <meta name='title' content='Andy\'s Epic Gaming Zone - Free Online Games for Kids'>
-  <meta name='description' content='Play awesome free online games at Andy\'s Epic Gaming Zone! Features Space Invaders, Snake Legends, Puzzle Path, Mine-Man (Minecraft Pac-Man), Pocket Tanks, and Asteroid Blaster. Perfect for kids and retro gaming fans!'>
-  <meta name='keywords' content='free online games, kids games, retro games, space invaders, snake game, puzzle games, minecraft pacman, pocket tanks, asteroid blaster, browser games, arcade games, family friendly games'>
+  <meta name='title' content='Andy\' s Epic Gaming Zone - Free Online Games for Kids'>
+  <meta name='description' content='Play awesome free online games at Andy\' s Epic Gaming Zone! Features Space
+    Invaders, Snake Legends, Puzzle Path, Mine-Man (Minecraft Pac-Man), Pocket Tanks, and Asteroid Blaster. Perfect for
+    kids and retro gaming fans!'>
+  <meta name='keywords'
+    content='free online games, kids games, retro games, space invaders, snake game, puzzle games, minecraft pacman, pocket tanks, asteroid blaster, browser games, arcade games, family friendly games'>
   <meta name='robots' content='index, follow'>
   <meta name='language' content='English'>
   <meta name='author' content='Andy Fitzgerald'>
-  
+
   <!-- Open Graph / Facebook -->
   <meta property='og:type' content='website'>
   <meta property='og:url' content='https://andy-fitzgerald.com/'>
-  <meta property='og:title' content='Andy\'s Epic Gaming Zone - Free Online Games for Kids'>
-  <meta property='og:description' content='Play awesome free online games! Space Invaders, Snake Legends, Puzzle Path, Mine-Man, Pocket Tanks, and Asteroid Blaster. Perfect for kids and retro gaming fans!'>
+  <meta property='og:title' content='Andy\' s Epic Gaming Zone - Free Online Games for Kids'>
+  <meta property='og:description'
+    content='Play awesome free online games! Space Invaders, Snake Legends, Puzzle Path, Mine-Man, Pocket Tanks, and Asteroid Blaster. Perfect for kids and retro gaming fans!'>
   <meta property='og:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
-  <meta property='og:site_name' content='Andy\'s Epic Gaming Zone'>
-  
+  <meta property='og:site_name' content='Andy\' s Epic Gaming Zone'>
+
   <!-- Twitter -->
   <meta property='twitter:card' content='summary_large_image'>
   <meta property='twitter:url' content='https://andy-fitzgerald.com/'>
-  <meta property='twitter:title' content='Andy\'s Epic Gaming Zone - Free Online Games for Kids'>
-  <meta property='twitter:description' content='Play awesome free online games! Space Invaders, Snake Legends, Puzzle Path, Mine-Man, Pocket Tanks, and Asteroid Blaster.'>
+  <meta property='twitter:title' content='Andy\' s Epic Gaming Zone - Free Online Games for Kids'>
+  <meta property='twitter:description'
+    content='Play awesome free online games! Space Invaders, Snake Legends, Puzzle Path, Mine-Man, Pocket Tanks, and Asteroid Blaster.'>
   <meta property='twitter:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
-  
+
   <!-- Favicon -->
   <link rel='icon' type='image/png' href='/favicon.png'>
   <link rel='apple-touch-icon' href='/favicon.png'>
-  
+
   <!-- Canonical URL -->
   <link rel='canonical' href='https://andy-fitzgerald.com/'>
-  
+
   <!-- Stylesheets -->
   <link rel='stylesheet' href='css/styles.css'>
   <style>
@@ -53,13 +59,13 @@
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       --glow: 0 0 20px rgba(78, 205, 196, 0.4);
     }
-    
-    * { 
-      box-sizing: border-box; 
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-    
+
     body {
       font-family: 'Comic Sans MS', cursive, system-ui;
       background: var(--bg);
@@ -67,28 +73,62 @@
       line-height: 1.6;
       overflow-x: hidden;
     }
-    
+
     /* Floating animations */
     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
     }
-    
+
     @keyframes bounce {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
     }
-    
+
     @keyframes rainbow {
-      0% { color: #ff6b6b; }
-      16% { color: #ffa726; }
-      32% { color: #66bb6a; }
-      48% { color: #4ecdc4; }
-      64% { color: #45b7d1; }
-      80% { color: #ab47bc; }
-      100% { color: #ff6b6b; }
+      0% {
+        color: #ff6b6b;
+      }
+
+      16% {
+        color: #ffa726;
+      }
+
+      32% {
+        color: #66bb6a;
+      }
+
+      48% {
+        color: #4ecdc4;
+      }
+
+      64% {
+        color: #45b7d1;
+      }
+
+      80% {
+        color: #ab47bc;
+      }
+
+      100% {
+        color: #ff6b6b;
+      }
     }
-    
+
     header {
       background: var(--card-bg);
       padding: 2rem 1rem;
@@ -98,7 +138,7 @@
       position: relative;
       overflow: hidden;
     }
-    
+
     header::before {
       content: '';
       position: absolute;
@@ -109,32 +149,37 @@
       background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent);
       animation: scan 3s infinite;
     }
-    
+
     @keyframes scan {
-      0% { left: -100%; }
-      100% { left: 100%; }
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 100%;
+      }
     }
-    
+
     header h1 {
       font-size: 3rem;
       margin: 0;
       color: var(--primary-color);
-      text-shadow: 0 0 20px rgba(78, 205, 196, 0.5), 2px 2px 4px rgba(0,0,0,0.8);
+      text-shadow: 0 0 20px rgba(78, 205, 196, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.8);
       font-family: 'Courier New', monospace;
       position: relative;
       z-index: 1;
     }
-    
+
     .emoji {
       font-size: 1.5em;
       animation: bounce 2s infinite;
       display: inline-block;
     }
-    
+
     nav {
       margin-top: 1rem;
     }
-    
+
     nav a {
       margin: 0 1rem;
       padding: 0.75rem 1.5rem;
@@ -148,22 +193,33 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    
-    nav a:nth-child(1) { background: var(--primary-color); box-shadow: 0 0 15px rgba(78, 205, 196, 0.3); }
-    nav a:nth-child(2) { background: var(--secondary-color); box-shadow: 0 0 15px rgba(69, 183, 170, 0.3); }
-    nav a:nth-child(3) { background: var(--accent-color); box-shadow: 0 0 15px rgba(150, 206, 180, 0.3); }
-    
+
+    nav a:nth-child(1) {
+      background: var(--primary-color);
+      box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+    }
+
+    nav a:nth-child(2) {
+      background: var(--secondary-color);
+      box-shadow: 0 0 15px rgba(69, 183, 170, 0.3);
+    }
+
+    nav a:nth-child(3) {
+      background: var(--accent-color);
+      box-shadow: 0 0 15px rgba(150, 206, 180, 0.3);
+    }
+
     nav a:hover {
       transform: translateY(-3px) scale(1.05);
       box-shadow: var(--glow);
     }
-    
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem 1rem;
     }
-    
+
     .hero {
       text-align: center;
       padding: 4rem 0;
@@ -173,7 +229,7 @@
       box-shadow: var(--shadow);
       border: 2px solid var(--primary-color);
     }
-    
+
     .hero h2 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
@@ -181,13 +237,13 @@
       text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
       font-family: 'Courier New', monospace;
     }
-    
+
     .hero p {
       font-size: 1.3rem;
       margin-bottom: 2rem;
       color: var(--text);
     }
-    
+
     .fun-button {
       display: inline-block;
       padding: 1rem 2rem;
@@ -202,12 +258,12 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    
+
     .fun-button:hover {
       transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     }
-    
+
     .section {
       background: var(--card-bg);
       margin: 3rem 0;
@@ -216,7 +272,7 @@
       box-shadow: var(--shadow);
       border: 2px solid var(--primary-color);
     }
-    
+
     .section h2 {
       font-size: 2.5rem;
       text-align: center;
@@ -225,14 +281,14 @@
       text-shadow: 0 0 10px var(--primary-color);
       font-family: 'Courier New', monospace;
     }
-    
+
     .games-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
       margin-top: 2rem;
     }
-    
+
     .game-card {
       background: var(--card-bg);
       padding: 2rem;
@@ -245,7 +301,7 @@
       position: relative;
       overflow: hidden;
     }
-    
+
     .game-card::before {
       content: '';
       position: absolute;
@@ -253,59 +309,69 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
       transform: rotate(45deg);
       transition: all 0.5s ease;
       opacity: 0;
     }
-    
+
     .game-card:hover::before {
       animation: shine 0.5s ease-in-out;
     }
-    
+
     @keyframes shine {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+      0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+        opacity: 0;
+      }
     }
-    
+
     .game-card:hover {
       transform: translateY(-10px) scale(1.02);
       box-shadow: 0 20px 40px rgba(78, 205, 196, 0.3);
       border-color: var(--secondary-color);
     }
-    
+
     .game-card h3 {
       font-size: 1.5rem;
       margin-bottom: 1rem;
       color: var(--primary-color);
       text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
     }
-    
+
     .game-card p {
       font-size: 1.1rem;
       opacity: 0.9;
     }
-    
+
     .coming-soon {
       background: linear-gradient(135deg, var(--purple), var(--primary));
       opacity: 0.7;
       position: relative;
     }
-    
+
     .coming-soon::after {
       content: '🚧 Coming Soon! 🚧';
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(0,0,0,0.8);
+      background: rgba(0, 0, 0, 0.8);
       color: white;
       padding: 0.5rem 1rem;
       border-radius: 20px;
       font-weight: bold;
     }
-    
+
     .floating-shapes {
       position: fixed;
       top: 0;
@@ -315,31 +381,31 @@
       pointer-events: none;
       z-index: -1;
     }
-    
+
     .shape {
       position: absolute;
       opacity: 0.1;
       animation: float 6s ease-in-out infinite;
     }
-    
+
     .shape:nth-child(1) {
       top: 20%;
       left: 10%;
       animation-delay: 0s;
     }
-    
+
     .shape:nth-child(2) {
       top: 60%;
       right: 10%;
       animation-delay: 2s;
     }
-    
+
     .shape:nth-child(3) {
       bottom: 20%;
       left: 20%;
       animation-delay: 4s;
     }
-    
+
     footer {
       text-align: center;
       padding: 3rem 1rem;
@@ -347,12 +413,12 @@
       margin-top: 3rem;
       backdrop-filter: blur(10px);
     }
-    
+
     footer p {
       font-size: 1.2rem;
       color: var(--text);
     }
-    
+
     /* Sidebar styles */
     .main-layout {
       display: flex;
@@ -362,7 +428,7 @@
       margin: 0 auto;
       padding: 0 1rem;
     }
-    
+
     .sidebar {
       width: 250px;
       background: rgba(0, 0, 0, 0.3);
@@ -403,39 +469,49 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
     }
-    
+
     .content-area {
       flex: 1;
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 1rem;
     }
-    
+
     @media (max-width: 1200px) {
       .sidebar {
         display: none;
       }
-      
+
       .main-layout {
         justify-content: center;
       }
     }
-    
+
     /* Mobile responsiveness */
     @media (max-width: 768px) {
-      header h1 { font-size: 2rem; }
-      nav a { 
+      header h1 {
+        font-size: 2rem;
+      }
+
+      nav a {
         display: block;
         margin: 0.5rem 0;
       }
-      .hero h2 { font-size: 2rem; }
-      .hero p { font-size: 1.1rem; }
+
+      .hero h2 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
       .games-grid {
         grid-template-columns: 1fr;
       }
     }
   </style>
-  
+
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
@@ -512,12 +588,21 @@
           "url": "https://andy-fitzgerald.com/games/asteroid-blaster.html",
           "genre": "Arcade",
           "gamePlatform": "Web Browser"
+        },
+        {
+          "@type": "Game",
+          "name": "Dave: Warriors & Wizards",
+          "description": "Battle through levels, collect coins, and defeat Evil Dave in this 3D adventure!",
+          "url": "https://andy-fitzgerald.com/games/dave-game.html",
+          "genre": "Adventure",
+          "gamePlatform": "Web Browser"
         }
       ]
     }
   }
   </script>
 </head>
+
 <body>
   <!-- Floating background shapes -->
   <div class="floating-shapes">
@@ -538,65 +623,71 @@
       <img src="images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
       <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
     </div>
-    
+
     <div class="content-area">
       <div class="container">
 
-    <main>
-      <section id="games" class="section" aria-labelledby="games-heading">
-        <h2 id="games-heading">EPIC GAMES <br><span class="emoji">🎮</span></h2>
-      <p style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem; color: var(--text-secondary);">Choose your gaming adventure! More epic games coming soon! <span class="emoji">⚡</span></p>
-      
-      <div class="games-grid">
-        <article class="game-card" data-game="pocket-tanks">
-          <h3>🎯 Pocket Tanks</h3>
-          <p>Epic turn-based artillery combat with destructible terrain and explosive weapons!</p>
-        </article>
-        
-        <article class="game-card" data-game="mine-man">
-          <h3>⛏️ Mine-Man</h3>
-          <p>Help Steve collect diamonds while avoiding Minecraft mobs in this epic maze adventure!</p>
-        </article>
-        
-        <article class="game-card" data-game="kirby-adventure">
-          <h3>🌸 Kirby Adventure</h3>
-          <p>Help Kirby collect Star Pieces and inhale Dream Land enemies in this adorable maze adventure!</p>
-        </article>
-        
-        <article class="game-card" data-game="puzzle-path">
-          <h3>🧩 Puzzle Path</h3>
-          <p>Navigate challenging mazes, collect gems, and find the exit in this brain-teasing adventure!</p>
-        </article>
-        
-        <article class="game-card" data-game="snake-legends">
-          <h3>🐍 Snake Legends</h3>
-          <p>Classic snake game with power-ups and epic boss battles!</p>
-        </article>
-        
-        <article class="game-card" data-game="space-invaders">
-          <h3>🚀 Space Invaders</h3>
-          <p>Defend Earth from alien invasion in this retro arcade classic!</p>
-        </article>
-        
-        <article class="game-card" data-game="asteroid-blaster">
-          <h3>🚀 Asteroid Blaster</h3>
-          <p>Navigate through space and destroy asteroids in this classic arcade shooter!</p>
-        </article>
-      </div>
-    </section>
+        <main>
+          <section id="games" class="section" aria-labelledby="games-heading">
+            <h2 id="games-heading">EPIC GAMES <br><span class="emoji">🎮</span></h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem; color: var(--text-secondary);">Choose
+              your gaming adventure! More epic games coming soon! <span class="emoji">⚡</span></p>
 
-      <section id="about" class="section" aria-labelledby="about-heading">
-        <h2 id="about-heading">ABOUT THE ZONE <span class="emoji">😎</span></h2>
-      <p style="font-size: 1.2rem; text-align: center; line-height: 1.8; color: var(--text-secondary);">
-        Welcome to Andy's ultimate gaming destination! <span class="emoji">🎮</span> This is where epic adventures begin!
-        <br><br>
-        New games drop regularly, so keep checking back for more epic content! <span class="emoji">🔥</span>
-      </p>
-      </section>
-    </main>
+            <div class="games-grid">
+              <article class="game-card" data-game="dave-game">
+                <h3>⚔️ Dave: Warriors & Wizards</h3>
+                <p>Battle through levels, collect coins, and defeat Evil Dave in this 3D adventure!</p>
+              </article>
+              <article class="game-card" data-game="pocket-tanks">
+                <h3>🎯 Pocket Tanks</h3>
+                <p>Epic turn-based artillery combat with destructible terrain and explosive weapons!</p>
+              </article>
+
+              <article class="game-card" data-game="mine-man">
+                <h3>⛏️ Mine-Man</h3>
+                <p>Help Steve collect diamonds while avoiding Minecraft mobs in this epic maze adventure!</p>
+              </article>
+
+              <article class="game-card" data-game="kirby-adventure">
+                <h3>🌸 Kirby Adventure</h3>
+                <p>Help Kirby collect Star Pieces and inhale Dream Land enemies in this adorable maze adventure!</p>
+              </article>
+
+              <article class="game-card" data-game="puzzle-path">
+                <h3>🧩 Puzzle Path</h3>
+                <p>Navigate challenging mazes, collect gems, and find the exit in this brain-teasing adventure!</p>
+              </article>
+
+              <article class="game-card" data-game="snake-legends">
+                <h3>🐍 Snake Legends</h3>
+                <p>Classic snake game with power-ups and epic boss battles!</p>
+              </article>
+
+              <article class="game-card" data-game="space-invaders">
+                <h3>🚀 Space Invaders</h3>
+                <p>Defend Earth from alien invasion in this retro arcade classic!</p>
+              </article>
+
+              <article class="game-card" data-game="asteroid-blaster">
+                <h3>🚀 Asteroid Blaster</h3>
+                <p>Navigate through space and destroy asteroids in this classic arcade shooter!</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="about" class="section" aria-labelledby="about-heading">
+            <h2 id="about-heading">ABOUT THE ZONE <span class="emoji">😎</span></h2>
+            <p style="font-size: 1.2rem; text-align: center; line-height: 1.8; color: var(--text-secondary);">
+              Welcome to Andy's ultimate gaming destination! <span class="emoji">🎮</span> This is where epic adventures
+              begin!
+              <br><br>
+              New games drop regularly, so keep checking back for more epic content! <span class="emoji">🔥</span>
+            </p>
+          </section>
+        </main>
       </div>
     </div>
-    
+
     <!-- Right Sidebar -->
     <div class="sidebar">
       <img src="images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
@@ -605,9 +696,11 @@
   </div>
 
   <footer>
-    <p style="color: var(--text-secondary);">GAME ON! <span class="emoji">🎮</span> Built by Andy's Dad | <span id="year"></span></p>
+    <p style="color: var(--text-secondary);">GAME ON! <span class="emoji">🎮</span> Built by Andy's Dad | <span
+        id="year"></span></p>
   </footer>
 
   <script src='js/main.js'></script>
 </body>
+
 </html>
