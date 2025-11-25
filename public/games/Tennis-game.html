@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Strikers 2D</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #2c3e50;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: #4ca1af;
+            cursor: none;
+        }
+
+        #ui-layer {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        #score {
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        #message {
+            font-size: 24px;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            font-weight: bold;
+            color: #f1c40f;
+        }
+
+        #start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 10;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        button:hover {
+            background: #ff6b81;
+            transform: scale(1.05);
+        }
+
+        .controls-hint {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="ui-layer">
+        <div id="score">PLAYER 0 - 0 CPU</div>
+        <div id="message"></div>
+    </div>
+
+    <div id="start-screen">
+        <h1>SUPER STRIKERS 2D</h1>
+        <p>Player 1: Mouse to Move • Click to Swing</p>
+        <div class="btn-container">
+            <div style="text-align:center">
+                <button id="btn-1p">1 PLAYER</button>
+                <div class="controls-hint">vs CPU</div>
+            </div>
+            <div style="text-align:center">
+                <button id="btn-2p">2 PLAYERS</button>
+                <div class="controls-hint">P2: A/D Move • S Hit</div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        (function () {
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
+            const btn1P = document.getElementById('btn-1p');
+            const btn2P = document.getElementById('btn-2p');
+            const msgEl = document.getElementById('message');
+            const scoreEl = document.getElementById('score');
+
+            // --- Game Constants ---
+            const COURT_COLOR = '#50c878';
+            const NET_COLOR = 'rgba(255, 255, 255, 0.5)';
+            const PLAYER_COLOR = '#3498db';
+            const CPU_COLOR = '#e74c3c'; // Used for P2/CPU
+            const BALL_COLOR = '#f1c40f';
+
+            const FRICTION = 0.995;
+            const GRAVITY = 0.6;
+
+            let W, H;
+            let courtScale = 1.0;
+            let courtRect = { x: 0, y: 0, w: 0, h: 0 };
+            let trajectoryPoints = [];
+
+            // --- State ---
+            const state = {
+                running: false,
+                mode: 'cpu', // 'cpu' or 'p2'
+                serving: true,
+                server: 1,
+                scores: [0, 0],
+                gameOver: false,
+                pointOver: false,
+                isServeShot: false,
+                lastHitTime: 0,
+                lastBounceTime: 0
+            };
+
+            // Keys for P2
+            const keys = { a: false, d: false };
+
+            const player = { x: 0, y: 0, r: 20, swingTimer: 0 };
+            const opponent = { x: 0, y: 0, r: 20, swingTimer: 0, targetX: 0, reactionDelay: 0 };
+            const ball = { x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, r: 8, bounces: 0, lastHitter: 0 };
+
+            function resize() {
+                W = canvas.width = window.innerWidth;
+                H = canvas.height = window.innerHeight;
+                const courtW = Math.min(W * 0.8, 500);
+                const courtH = Math.min(H * 0.9, 900);
+                courtRect = { x: W / 2 - courtW / 2, y: H / 2 - courtH / 2, w: courtW, h: courtH, cx: W / 2, cy: H / 2 };
+                courtScale = courtH / 800;
+                if (!state.running) resetPositions();
+            }
+            window.onresize = resize;
+            resize();
+
+            // --- Input ---
+            const input = { x: W / 2 };
+            function onMouseMove(e) { input.x = e.clientX; }
+            function onMouseDown() {
+                if (state.running && !state.gameOver) {
+                    player.swingTimer = 15;
+                    // If serving, P1 logic handles it in physics loop via checkHit
+                }
+            }
+
+            // Keyboard Input for P2
+            window.addEventListener('keydown', (e) => {
+                const k = e.key.toLowerCase();
+                if (k === 'a') keys.a = true;
+                if (k === 'd') keys.d = true;
+                if (k === 's') {
+                    if (state.running && state.mode === 'p2') {
+                        opponent.swingTimer = 15;
+                        // If P2 is serving, they need to trigger the hit manually here or via physics check loop
+                        // checkHit is called in updatePhysics, so setting swingTimer is enough
+                    }
+                }
+            });
+            window.addEventListener('keyup', (e) => {
+                const k = e.key.toLowerCase();
+                if (k === 'a') keys.a = false;
+                if (k === 'd') keys.d = false;
+            });
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mousedown', onMouseDown);
+
+            btn1P.onclick = () => startGame('cpu');
+            btn2P.onclick = () => startGame('p2');
+
+            function startGame(mode) {
+                document.getElementById('start-screen').style.display = 'none';
+                state.mode = mode;
+                state.running = true;
+                state.scores = [0, 0];
+                state.gameOver = false;
+                state.server = 1;
+                updateScoreUI();
+                resetPoint();
+                lastTime = performance.now();
+                requestAnimationFrame(loop);
+            }
+
+            function resetPositions() {
+                player.x = courtRect.cx; player.y = courtRect.y + courtRect.h - 40;
+                opponent.x = courtRect.cx; opponent.y = courtRect.y + 40;
+                opponent.targetX = courtRect.cx; opponent.reactionDelay = 0;
+            }
+
+            function resetPoint() {
+                state.serving = true;
+                state.pointOver = false;
+                state.isServeShot = false;
+                state.lastHitTime = 0;
+                state.lastBounceTime = 0;
+                trajectoryPoints = [];
+                resetPositions();
+
+                ball.bounces = 0; ball.z = 20; ball.vz = 0; ball.vx = 0; ball.vy = 0; ball.lastHitter = 0;
+
+                if (state.server === 1) {
+                    ball.x = Math.max(courtRect.x + 20, Math.min(courtRect.x + courtRect.w - 20, player.x + 20));
+                    ball.y = player.y - 20;
+                    state.message = "P1 Serve (Click)";
+                } else {
+                    ball.x = opponent.x - 20; ball.y = opponent.y + 20;
+                    if (state.mode === 'cpu') {
+                        state.message = "CPU Serve";
+                        setTimeout(() => { opponent.swingTimer = 15; }, 1000);
+                    } else {
+                        state.message = "P2 Serve (Press S)";
+                    }
+                }
+                showMessage(state.message);
+            }
+
+            function simulateLandingY(x, y, z, vx, vy, vz) {
+                let sx = x, sy = y, sz = z, svx = vx, svy = vy, svz = vz;
+                for (let i = 0; i < 200; i++) {
+                    sx += svx; sy += svy; sz += svz; svz -= GRAVITY; svx *= FRICTION; svy *= FRICTION;
+                    if (sz <= 0) return sy;
+                }
+                return sy;
+            }
+
+            function calculateTrajectory(vx, vy, vz) {
+                let path = []; let sx = ball.x, sy = ball.y, sz = ball.z, svx = vx, svy = vy, svz = vz;
+                for (let i = 0; i < 60; i += 2) {
+                    path.push({ x: sx, y: sy, z: sz });
+                    sx += svx; sy += svy; sz += svz; svz -= GRAVITY; svx *= FRICTION; svy *= FRICTION;
+                    if (sz <= 0) break;
+                }
+                return path;
+            }
+
+            function checkHit(char, side) {
+                const now = Date.now();
+                if (now - state.lastHitTime < 300 && ball.lastHitter === side) return;
+                if (side === 1 && state.isServeShot && ball.lastHitter === 1) return;
+                // Note: P2 serving lock not needed as much as P1 since key presses are less prone to jitter than mouse clicks, but logic holds.
+
+                const dx = ball.x - char.x; const dy = ball.y - char.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const HIT_RANGE = 80;
+
+                if (state.serving) {
+                    if (state.server === side && dist < HIT_RANGE) {
+                        const targetDepth = 0.35;
+                        const targetY = side === 1
+                            ? courtRect.cy - (courtRect.h * targetDepth)
+                            : courtRect.cy + (courtRect.h * targetDepth);
+
+                        let bestVy = side === 1 ? -15 : 15; let minError = 9999;
+                        for (let v = 5; v < 60; v += 0.5) {
+                            let attemptVy = side === 1 ? -v : v;
+                            let landY = simulateLandingY(ball.x, ball.y, 25, 0, attemptVy, 15);
+                            let error = Math.abs(landY - targetY);
+                            if (error < minError) { minError = error; bestVy = attemptVy; }
+                        }
+
+                        ball.vz = 15; ball.z = 25; ball.vy = bestVy;
+                        ball.vx = (courtRect.cx - ball.x) * 0.05;
+
+                        ball.lastHitter = side; ball.bounces = 0;
+                        state.serving = false; state.isServeShot = true; state.lastHitTime = now;
+
+                        trajectoryPoints = calculateTrajectory(ball.vx, ball.vy, ball.vz);
+                        const name = side === 1 ? "PLAYER 1" : (state.mode === 'cpu' ? "CPU" : "PLAYER 2");
+                        showMessage(`${name} SERVE!`);
+                        playSound(600);
+                    }
+                    return;
+                }
+
+                if (dist < HIT_RANGE && ball.z < 60) {
+                    ball.vx = (ball.x - char.x) * 0.15;
+                    const rallySpeed = 15 * courtScale;
+                    ball.vy = side === 1 ? -rallySpeed : rallySpeed;
+                    ball.vz = 11;
+                    ball.lastHitter = side; ball.bounces = 0;
+                    state.isServeShot = false; state.lastHitTime = now;
+                    trajectoryPoints = [];
+                    const name = side === 1 ? "PLAYER 1" : (state.mode === 'cpu' ? "CPU" : "PLAYER 2");
+                    showMessage(`${name} HIT!`);
+                    playSound(400);
+                }
+            }
+
+            function updatePhysics() {
+                // --- PLAYER 1 (Mouse) ---
+                const pX = Math.max(courtRect.x + 20, Math.min(courtRect.x + courtRect.w - 20, input.x));
+                player.x += (pX - player.x) * 0.2;
+
+                // --- OPPONENT (CPU or P2) ---
+                if (state.mode === 'cpu') {
+                    // CPU Logic
+                    let desiredX = courtRect.cx;
+                    if (ball.vy < 0 && ball.y < courtRect.cy) desiredX = ball.x;
+                    opponent.reactionDelay++;
+                    if (opponent.reactionDelay > 5) { opponent.targetX = desiredX; opponent.reactionDelay = 0; }
+                    opponent.x += (opponent.targetX - opponent.x) * 0.06;
+
+                    // CPU Swing
+                    let canCpuSwing = true;
+                    if (state.isServeShot && ball.bounces === 0) canCpuSwing = false;
+                    if (canCpuSwing && ball.vy < 0 && Math.abs(ball.y - opponent.y) < 60 && ball.z < 50) {
+                        if (Math.abs(ball.x - opponent.x) < 50 && opponent.swingTimer === 0) opponent.swingTimer = 15;
+                    }
+                } else {
+                    // P2 Logic (Keyboard)
+                    let moveSpeed = 6 * courtScale; // Scale speed with screen
+                    if (keys.a) opponent.x -= moveSpeed;
+                    if (keys.d) opponent.x += moveSpeed;
+                    // Clamp P2
+                    opponent.x = Math.max(courtRect.x + 20, Math.min(courtRect.x + courtRect.w - 20, opponent.x));
+                }
+
+                // Check hits
+                if (player.swingTimer > 0) checkHit(player, 1);
+                if (opponent.swingTimer > 0) checkHit(opponent, -1);
+
+                // Ball Physics
+                if (!state.serving || !state.server) {
+                    ball.x += ball.vx; ball.y += ball.vy; ball.z += ball.vz;
+                    ball.vz -= GRAVITY; ball.vx *= FRICTION; ball.vy *= FRICTION;
+
+                    if (ball.z <= 0) {
+                        ball.z = 0; ball.vz *= -0.75;
+                        if (Math.abs(ball.vz) < 2) ball.vz = 0;
+
+                        const now = Date.now();
+                        if (Math.abs(ball.vz) > 1 && now - state.lastBounceTime > 200) {
+                            ball.bounces++;
+                            state.lastBounceTime = now;
+                            playSound(100);
+                            checkBoundaries();
+                        }
+                    }
+                } else {
+                    // Hold Ball for Serve
+                    if (state.server === 1) {
+                        ball.x = Math.max(courtRect.x + 20, Math.min(courtRect.x + courtRect.w - 20, player.x + 20));
+                        ball.y = player.y - 20; ball.z = 20;
+                    } else {
+                        ball.x = opponent.x - 15; ball.y = opponent.y + 15; ball.z = 20;
+                    }
+                }
+
+                if (player.swingTimer > 0) player.swingTimer--;
+                if (opponent.swingTimer > 0) opponent.swingTimer--;
+            }
+
+            function checkBoundaries() {
+                if (state.pointOver) return;
+                if (ball.bounces >= 2) { scorePoint(ball.lastHitter, "WINNER: DOUBLE BOUNCE"); return; }
+
+                const inBoundsX = ball.x > courtRect.x - 15 && ball.x < courtRect.x + courtRect.w + 15;
+                const inBoundsY = ball.y > courtRect.y - 15 && ball.y < courtRect.y + courtRect.h + 15;
+                const ballOnPlayerSide = ball.y > courtRect.cy;
+                const ballOnCpuSide = ball.y <= courtRect.cy;
+
+                if (!inBoundsX || !inBoundsY) {
+                    scorePoint(-ball.lastHitter, "OUT");
+                } else {
+                    if (ball.lastHitter === 1 && ballOnPlayerSide) scorePoint(-1, "FAULT");
+                    else if (ball.lastHitter === -1 && ballOnCpuSide) scorePoint(1, "FAULT");
+                }
+            }
+
+            function scorePoint(winner, reason) {
+                if (state.gameOver || state.pointOver) return;
+                state.pointOver = true;
+
+                const idx = winner === 1 ? 0 : 1;
+                state.scores[idx]++;
+
+                const p1Name = "P1";
+                const p2Name = state.mode === 'cpu' ? "CPU" : "P2";
+
+                let winMsg = winner === 1 ? `POINT ${p1Name}` : `POINT ${p2Name}`;
+                if (reason) winMsg = reason;
+
+                showMessage(winMsg);
+
+                if (state.scores[idx] > 3) {
+                    const pScore = state.scores[0];
+                    const cScore = state.scores[1];
+                    if (pScore >= cScore + 2 || cScore >= pScore + 2 || state.scores[idx] > 4) {
+                        endGame(winner);
+                        return;
+                    }
+                }
+
+                updateScoreUI();
+                state.server = state.server * -1;
+                setTimeout(resetPoint, 2000);
+            }
+
+            function getScoreText(score) {
+                if (score === 0) return "0"; if (score === 1) return "15";
+                if (score === 2) return "30"; if (score === 3) return "40";
+                return "ADV";
+            }
+
+            function updateScoreUI() {
+                const p1T = getScoreText(state.scores[0]);
+                const p2T = getScoreText(state.scores[1]);
+                const name2 = state.mode === 'cpu' ? "CPU" : "P2";
+                scoreEl.innerText = `P1 ${p1T} - ${p2T} ${name2}`;
+            }
+
+            function endGame(winner) {
+                state.gameOver = true;
+                state.running = false;
+                const name = winner === 1 ? "PLAYER 1" : (state.mode === 'cpu' ? "CPU" : "PLAYER 2");
+                showMessage(`${name} WINS!`);
+                document.querySelector('button').innerText = "PLAY AGAIN"; // Reset button text potentially
+                setTimeout(() => {
+                    document.getElementById('start-screen').style.display = 'flex';
+                }, 2000);
+            }
+
+            function showMessage(text) {
+                msgEl.innerText = text;
+                msgEl.style.opacity = 1;
+                clearTimeout(state.messageTimer);
+                state.messageTimer = setTimeout(() => msgEl.style.opacity = 0, 1500);
+            }
+
+            function draw() {
+                ctx.fillStyle = '#2c3e50'; ctx.fillRect(0, 0, W, H);
+                ctx.fillStyle = COURT_COLOR; ctx.fillRect(courtRect.x, courtRect.y, courtRect.w, courtRect.h);
+                ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; ctx.strokeRect(courtRect.x, courtRect.y, courtRect.w, courtRect.h);
+
+                ctx.beginPath(); ctx.moveTo(courtRect.x, courtRect.cy); ctx.lineTo(courtRect.x + courtRect.w, courtRect.cy); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(courtRect.x, courtRect.y + courtRect.h * 0.25); ctx.lineTo(courtRect.x + courtRect.w, courtRect.y + courtRect.h * 0.25);
+                ctx.moveTo(courtRect.x, courtRect.y + courtRect.h * 0.75); ctx.lineTo(courtRect.x + courtRect.w, courtRect.y + courtRect.h * 0.75); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(courtRect.cx, courtRect.y + courtRect.h * 0.25); ctx.lineTo(courtRect.cx, courtRect.y + courtRect.h * 0.75); ctx.stroke();
+
+                ctx.strokeStyle = NET_COLOR; ctx.lineWidth = 2; ctx.setLineDash([10, 10]);
+                ctx.beginPath(); ctx.moveTo(courtRect.x - 20, courtRect.cy); ctx.lineTo(courtRect.x + courtRect.w + 20, courtRect.cy); ctx.stroke(); ctx.setLineDash([]);
+
+                if (trajectoryPoints.length > 0) {
+                    ctx.strokeStyle = 'rgba(255, 255, 0, 0.3)'; ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.moveTo(trajectoryPoints[0].x, trajectoryPoints[0].y);
+                    for (let p of trajectoryPoints) ctx.lineTo(p.x, p.y);
+                    ctx.stroke();
+                }
+
+                drawPlayer(player, PLAYER_COLOR); drawPlayer(opponent, CPU_COLOR); drawBall();
+            }
+
+            function drawPlayer(p, color) {
+                ctx.fillStyle = 'rgba(0,0,0,0.2)'; ctx.beginPath(); ctx.ellipse(p.x, p.y + 10, p.r, p.r * 0.6, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = color; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+                if (p.swingTimer > 0) {
+                    ctx.save(); ctx.translate(p.x, p.y);
+                    const isP1 = p === player;
+                    const angle = (15 - p.swingTimer) * 0.2; ctx.rotate(isP1 ? -angle : angle);
+                    ctx.strokeStyle = '#333'; ctx.lineWidth = 3; ctx.beginPath();
+                    const side = isP1 ? -1 : 1; ctx.moveTo(15, 0); ctx.lineTo(45, 0); ctx.stroke();
+                    ctx.beginPath(); ctx.ellipse(55, 0, 15, 12, 0, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+                }
+            }
+
+            function drawBall() {
+                const shadowScale = Math.max(0.2, 1 - ball.z / 200);
+                ctx.fillStyle = 'rgba(0,0,0,0.2)'; ctx.beginPath(); ctx.ellipse(ball.x, ball.y + ball.z, ball.r * shadowScale, ball.r * shadowScale * 0.6, 0, 0, Math.PI * 2); ctx.fill();
+                const scale = 1 + ball.z * 0.005;
+                ctx.fillStyle = BALL_COLOR; ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r * scale, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.beginPath(); ctx.arc(ball.x - 2 * scale, ball.y - 2 * scale, ball.r * 0.3 * scale, 0, Math.PI * 2); ctx.fill();
+            }
+
+            const ac = new (window.AudioContext || window.webkitAudioContext)();
+            function playSound(freq) {
+                if (ac.state === 'suspended') ac.resume();
+                const osc = ac.createOscillator(); const gain = ac.createGain();
+                osc.frequency.setValueAtTime(freq, ac.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(freq / 2, ac.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.1, ac.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ac.currentTime + 0.1);
+                osc.connect(gain); gain.connect(ac.destination);
+                osc.start(); osc.stop(ac.currentTime + 0.1);
+            }
+
+            let lastTime = 0; let accumulator = 0; const TIME_STEP = 1 / 60;
+            function loop(timestamp) {
+                if (!state.running) return;
+                let dt = (timestamp - lastTime) / 1000; lastTime = timestamp;
+                if (dt > 0.1) dt = 0.1; accumulator += dt;
+                while (accumulator >= TIME_STEP) { updatePhysics(); accumulator -= TIME_STEP; }
+                draw(); requestAnimationFrame(loop);
+            }
+        })();
+    </script>
+</body>
+
+</html>
