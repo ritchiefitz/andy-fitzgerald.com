@@ -2,69 +2,393 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buff Brawl: Arena Mode</title>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+    <!-- Primary Meta Tags -->
+    <title>Buff Brawl: Arena Mode | Andy's Epic Gaming Zone</title>
+    <meta name='title' content='Buff Brawl: Arena Mode'>
+    <meta name='description'
+        content='Survive the arena in this intense brawler! Defeat waves of enemies and bosses in Buff Brawl.'>
+    <meta name='keywords' content='buff brawl, fighting game, arena survival, beat em up, action game, browser game'>
+    <meta name='robots' content='index, follow'>
+    <meta name='language' content='English'>
+    <meta name='author' content='Andy Fitzgerald'>
+
+    <!-- Open Graph / Facebook -->
+    <meta property='og:type' content='website'>
+    <meta property='og:url' content='https://andy-fitzgerald.com/games/Buff-Brawl.html'>
+    <meta property='og:title' content='Buff Brawl: Arena Mode'>
+    <meta property='og:description'
+        content='Survive the arena in this intense brawler! Defeat waves of enemies and bosses in Buff Brawl.'>
+    <meta property='og:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
+    <meta property='og:site_name' content='Andy\' s Epic Gaming Zone'>
+
+    <!-- Twitter -->
+    <meta property='twitter:card' content='summary_large_image'>
+    <meta property='twitter:url' content='https://andy-fitzgerald.com/games/Buff-Brawl.html'>
+    <meta property='twitter:title' content='Buff Brawl: Arena Mode'>
+    <meta property='twitter:description'
+        content='Survive the arena in this intense brawler! Defeat waves of enemies and bosses in Buff Brawl.'>
+    <meta property='twitter:image' content='https://andy-fitzgerald.com/images/andy_my529.png'>
+
+    <!-- Favicon -->
+    <link rel='icon' type='image/png' href='/favicon.png'>
+    <link rel='apple-touch-icon' href='/favicon.png'>
+
+    <!-- Canonical URL -->
+    <link rel='canonical' href='https://andy-fitzgerald.com/games/Buff-Brawl.html'>
+
+    <!-- Stylesheets -->
+    <link rel='stylesheet' href='../css/styles.css'>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Game",
+    "name": "Buff Brawl",
+    "description": "Survive the arena in this intense brawler! Defeat waves of enemies and bosses.",
+    "url": "https://andy-fitzgerald.com/games/Buff-Brawl.html",
+    "genre": "Action",
+    "gamePlatform": "Web Browser",
+    "operatingSystem": "Any",
+    "applicationCategory": "Game",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Andy Fitzgerald"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Andy's Epic Gaming Zone",
+      "url": "https://andy-fitzgerald.com"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Andy's Epic Gaming Zone",
+      "url": "https://andy-fitzgerald.com"
+    }
+  }
+  </script>
     <style>
-        body {
+        :root {
+            --primary-color: #4ecdc4;
+            --secondary-color: #45b7aa;
+            --accent-color: #96ceb4;
+            --text-color: #ffffff;
+            --bg-dark: #2c3e50;
+            --bg-darker: #1a252f;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #222;
-            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
             user-select: none;
         }
 
-        #gameCanvas {
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .back-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .game-header {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .game-header h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .main-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            min-height: calc(100vh - 200px);
+            padding: 0 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .game-container {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--primary-color);
+            max-width: 850px;
+            /* Slightly wider for this game */
+            width: 100%;
+            flex: 0 0 auto;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            height: fit-content;
+        }
+
+        .sidebar-image {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .donate-link {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .donate-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .game-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .info-item {
+            background: rgba(78, 205, 196, 0.1);
+            padding: 0.75rem;
+            border-radius: 10px;
+            border: 1px solid var(--primary-color);
+            font-weight: bold;
+        }
+
+        .game-canvas {
+            border: 3px solid var(--primary-color);
+            border-radius: 10px;
+            background: #222;
             display: block;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 0 30px rgba(78, 205, 196, 0.3);
             outline: none;
         }
 
-        #ui {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .game-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             color: white;
-            font-size: 20px;
-            text-shadow: 2px 2px 0 #000;
-            pointer-events: none;
-            z-index: 10;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
         }
 
-        #move-list {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: white;
-            text-align: right;
-            pointer-events: none;
-            z-index: 10;
-            text-shadow: 2px 2px 0 #000;
+        .game-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
         }
 
-        .move-item {
-            font-size: 16px;
-            margin-bottom: 5px;
-            opacity: 0.8;
+        .instructions {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--primary-color);
+            text-align: center;
         }
 
+        .instructions h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .instructions p {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .game-start,
+        .game-over {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--primary-color);
+            z-index: 150;
+            min-width: 300px;
+            box-shadow: 0 0 50px rgba(78, 205, 196, 0.5);
+        }
+
+        .game-start h2,
+        .game-over h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+        }
+
+        /* Buff Brawl Specific Styles */
         .key-badge {
             background: #fff;
             color: #000;
             padding: 2px 6px;
             border-radius: 4px;
             font-weight: bold;
-            margin-right: 5px;
+            margin: 0 2px;
             font-size: 14px;
         }
 
+        /* Leaderboard Styles */
+        .leaderboard {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--primary-color);
+            display: none;
+            z-index: 200;
+            min-width: 400px;
+            max-width: 90vw;
+            box-shadow: 0 0 50px rgba(78, 205, 196, 0.5);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .leaderboard h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .leaderboard-list {
+            margin: 1rem 0;
+            text-align: left;
+        }
+
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 5px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .leaderboard-entry.new-score {
+            background: rgba(255, 170, 0, 0.2);
+            border-left-color: #ffaa00;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .high-score-input {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #ffaa00;
+            z-index: 300;
+            min-width: 350px;
+            box-shadow: 0 0 50px rgba(255, 170, 0, 0.5);
+            display: none;
+        }
+
+        .high-score-input h2 {
+            color: #ffaa00;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px #ffaa00;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px rgba(78, 205, 196, 0.5);
+            }
+
+            to {
+                box-shadow: 0 0 20px rgba(78, 205, 196, 0.8);
+            }
+        }
+
         #health-container {
-            width: 300px;
+            width: 100%;
             height: 20px;
             background: #444;
             border: 2px solid white;
-            margin-top: 5px;
             position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 5px;
         }
 
         #health-bar {
@@ -76,24 +400,22 @@
 
         #boss-health-container {
             position: absolute;
-            top: 60px;
-            /* Below player health */
+            top: 40px;
             left: 50%;
             transform: translateX(-50%);
-            width: 600px;
+            width: 60%;
             height: 30px;
             background: #000;
             border: 3px solid #ff0000;
             display: none;
-            /* Hidden until boss */
             z-index: 10;
+            border-radius: 5px;
         }
 
         #boss-health-bar {
             width: 100%;
             height: 100%;
             background: #800000;
-            /* Dark red for boss */
             transition: width 0.2s;
         }
 
@@ -104,116 +426,149 @@
             text-align: center;
             color: #fff;
             font-weight: bold;
-            font-size: 24px;
-            text-transform: uppercase;
-        }
-
-        #controls-hint {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-        }
-
-        #game-over {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: white;
-            display: none;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 40px;
-            border-radius: 10px;
-            border: 2px solid #fff;
-            z-index: 20;
-        }
-
-        #start-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            z-index: 30;
-            cursor: pointer;
-        }
-
-        button {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 10px 20px;
             font-size: 18px;
-            cursor: pointer;
-            margin-top: 20px;
-            font-weight: bold;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 #000;
         }
 
-        button:hover {
-            background: #c0392b;
+        @media (max-width: 1200px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-wrapper {
+                justify-content: center;
+            }
         }
 
-        .highscore-display {
-            color: #f1c40f;
-            font-size: 16px;
-            margin-top: 5px;
+        @media (max-width: 768px) {
+            .game-header h1 {
+                font-size: 2rem;
+            }
+
+            .game-info {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
+    <a href="../index.html" class="back-button">🏠 Back to Gaming Zone</a>
 
-    <div id="ui">
-        <div>THE BUFF ONE</div>
-        <div id="health-container">
-            <div id="health-bar"></div>
+    <div class="game-header">
+        <h1>🥊 BUFF BRAWL 🥊</h1>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="game-container">
+
+            <div class="game-info">
+                <div class="info-item">
+                    KILLS: <span id="kill-count">0</span> / 500
+                </div>
+                <div class="info-item">
+                    HIGH SCORE: <span id="high-score">0</span>
+                </div>
+                <div class="info-item">
+                    HEALTH
+                    <div id="health-container">
+                        <div id="health-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boss UI Overlay -->
+            <div id="boss-health-container">
+                <div id="boss-name">THE BUFF BOSS</div>
+                <div id="boss-health-bar"></div>
+            </div>
+
+            <canvas id="gameCanvas" class="game-canvas" width="800" height="600" tabindex="0"></canvas>
+
+            <div class="controls">
+                <button class="game-button" onclick="startGame()">🎮 START GAME</button>
+                <button class="game-button" onclick="resetGame()">🔄 RESET</button>
+                <button class="game-button" onclick="showLeaderboard()">🏆 LEADERBOARD</button>
+            </div>
+
+            <div class="instructions">
+                <h3>🥊 INSTRUCTIONS</h3>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--accent-color); margin-bottom: 0.5rem;">🎯 OBJECTIVE</h4>
+                    <p>Survive the arena! Defeat <strong>500 enemies</strong> to summon <strong>THE BUFF BOSS</strong>.
+                        Defeat the boss to claim victory!</p>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--accent-color); margin-bottom: 0.5rem;">👥 CHARACTERS</h4>
+                    <p>💪 <strong>The Buff One:</strong> That's you! Maximum gains.</p>
+                    <p>🧟 <strong>Sick Figures:</strong> Weak enemies. Don't let them touch you!</p>
+                    <p>👹 <strong>The Buff Boss:</strong> The ultimate challenge.</p>
+                </div>
+
+                <div>
+                    <h4 style="color: var(--accent-color); margin-bottom: 0.5rem;">🥊 MOVES & CONTROLS</h4>
+                    <p><span class="key-badge">ARROWS</span> Move / Jump</p>
+                    <p><span class="key-badge">Z</span> JAB | <span class="key-badge">X</span> CROSS | <span
+                            class="key-badge">C</span> UPPERCUT</p>
+                    <p><span class="key-badge">DOWN</span> + <span class="key-badge">Z</span> SWEEP / POUND</p>
+                    <p><span class="key-badge">UP</span> (Hold) MONKEY BAR</p>
+                </div>
+            </div>
         </div>
-        <div style="margin-top: 10px;">KILLED: <span id="kill-count">0</span> / 500</div>
-        <div class="highscore-display">HIGH SCORE: <span id="high-score">0</span></div>
+
+        <!-- Right Sidebar Column -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <!-- Top Sidebar Box -->
+            <div class="sidebar">
+                <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+                <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
+            </div>
+
+            <!-- Bottom Sidebar Box (Moved from Left) -->
+            <div class="sidebar">
+                <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+                <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
+            </div>
+        </div>
     </div>
 
-    <!-- Boss UI -->
-    <div id="boss-health-container">
-        <div id="boss-name">THE BUFF BOSS</div>
-        <div id="boss-health-bar"></div>
+    <div class="game-start" id="gameStart">
+        <h2>🥊 BUFF BRAWL 🥊</h2>
+        <p>ARENA SURVIVAL MODE</p>
+        <p>Defeat 500 enemies to face the BOSS!</p>
+        <button class="game-button" onclick="startGame()">🎮 FIGHT!</button>
     </div>
 
-    <div id="move-list">
-        <h3 style="margin: 0 0 10px 0;">MOVE LIST</h3>
-        <div class="move-item"><span class="key-badge">Z</span> JAB</div>
-        <div class="move-item"><span class="key-badge">X</span> CROSS</div>
-        <div class="move-item"><span class="key-badge">C</span> UPPERCUT</div>
-        <div class="move-item"><span class="key-badge">DOWN+Z</span> SWEEP / POUND</div>
-        <div class="move-item"><span class="key-badge">UP (Hold)</span> MONKEY BAR</div>
-    </div>
-
-    <div id="controls-hint">
-        ARROWS to Move | Z, X, C to Attack | UP to Grab Bars
-    </div>
-
-    <div id="start-screen" onclick="startGame()">
-        <h1 style="font-size: 50px; margin-bottom: 10px;">BUFF BRAWL</h1>
-        <p style="font-size: 20px;">ARENA SURVIVAL</p>
-        <p style="color: #aaa; font-size: 14px; margin-top: 20px;">CLICK TO START</p>
-    </div>
-
-    <div id="game-over">
-        <h1 id="go-title">GAME OVER</h1>
+    <div class="game-over" id="gameOver" style="display: none;">
+        <h2 id="go-title">GAME OVER</h2>
         <p>Enemies Defeated: <span id="final-score">0</span></p>
         <p style="color: #f1c40f; font-size: 18px; margin-top: 5px;" id="new-highscore-msg"></p>
-        <button onclick="resetGame()">PLAY AGAIN</button>
+        <button class="game-button" onclick="resetGame()">🔄 PLAY AGAIN</button>
+        <button class="game-button" onclick="showLeaderboard()">🏆 LEADERBOARD</button>
     </div>
 
-    <canvas id="gameCanvas" tabindex="0"></canvas>
+    <!-- Leaderboard Modal -->
+    <div class="leaderboard" id="leaderboard">
+        <h2>🏆 BUFF BRAWL LEADERBOARD 🏆</h2>
+        <div class="leaderboard-list" id="leaderboardList">
+            <!-- Leaderboard entries will be populated here -->
+        </div>
+        <button class="game-button" onclick="hideLeaderboard()">✖️ CLOSE</button>
+    </div>
+
+    <!-- High Score Input Modal -->
+    <div class="high-score-input" id="highScoreInput">
+        <h2>🏆 NEW HIGH SCORE! 🏆</h2>
+        <p>Congratulations! You made it to the leaderboard!</p>
+        <p>Kills: <span id="newHighScore">0</span></p>
+        <input type="text" id="playerName" placeholder="Enter your name" maxlength="15"
+            style="padding: 0.5rem; margin: 1rem; border-radius: 5px; border: 1px solid #4ecdc4; background: rgba(0,0,0,0.8); color: white; text-align: center;">
+        <br>
+        <button class="game-button" onclick="submitScore()">🏆 SUBMIT SCORE</button>
+    </div>
 
     <script>
         /**
@@ -271,11 +626,14 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
-        let WIDTH, HEIGHT;
-        let gameState = 'menu';
+        // Fixed size for template
+        const WIDTH = 800;
+        const HEIGHT = 600;
+
+        let gameState = 'start'; // Changed from 'menu' to match template flow
         let kills = 0;
         let totalSpawned = 0;
-        let bossSpawned = false; // Track if boss is in play
+        let bossSpawned = false;
         let bossDefeated = false;
 
         const TOTAL_ENEMIES = 500;
@@ -291,16 +649,10 @@
         let highScore = localStorage.getItem('buffBrawlHighScore') || 0;
         document.getElementById('high-score').innerText = highScore;
 
-        function resize() {
-            WIDTH = window.innerWidth;
-            HEIGHT = window.innerHeight;
-            canvas.width = WIDTH;
-            canvas.height = HEIGHT;
-            if (gameState === 'playing' || gameState === 'menu') {
-                generateLevel();
-            }
-        }
-        window.addEventListener('resize', resize);
+        // Initial setup
+        canvas.width = WIDTH;
+        canvas.height = HEIGHT;
+        generateLevel();
 
         // Inputs
         const keys = {
@@ -310,7 +662,7 @@
 
         canvas.addEventListener('keydown', handleKey);
         canvas.addEventListener('keyup', handleKeyRelease);
-        window.addEventListener('keydown', handleKey);
+        window.addEventListener('keydown', handleKey); // Keep window listener for better responsiveness
         window.addEventListener('keyup', handleKeyRelease);
 
         function handleKey(e) {
@@ -364,7 +716,6 @@
             monkeyBars.push({ x: (WIDTH + centerW) / 2, y: topHeight + 50, w: (WIDTH - centerW) / 2 - sidePlatWidth, h: 10 });
             monkeyBars.push({ x: WIDTH * 0.3, y: topHeight - 100, w: WIDTH * 0.4, h: 10 });
         }
-        resize();
 
         class Entity {
             constructor(x, y, isPlayer = false) {
@@ -373,7 +724,7 @@
                 this.vx = 0;
                 this.vy = 0;
                 this.isPlayer = isPlayer;
-                this.isBoss = false; // New property
+                this.isBoss = false;
 
                 this.width = isPlayer ? 50 : 30;
                 this.height = isPlayer ? 100 : 70;
@@ -381,7 +732,6 @@
                 this.jumpPower = -15;
                 this.color = isPlayer ? '#ecf0f1' : '#2ecc71';
 
-                // --- UPDATED HEALTH ---
                 this.maxHealth = isPlayer ? 10000 : 30;
                 this.health = this.maxHealth;
 
@@ -453,12 +803,11 @@
 
             handleAI() {
                 if (this.isBoss) {
-                    // BOSS AI - SMARTER, AGGRESSIVE
+                    // BOSS AI
                     const dist = player.x - this.x;
                     const distY = player.y - this.y;
                     const attackRange = 80;
 
-                    // Movement
                     if (Math.abs(dist) > attackRange - 20) {
                         this.vx = (dist > 0 ? 1 : -1) * this.speed;
                         this.facing = (dist > 0 ? 1 : -1);
@@ -467,26 +816,22 @@
                         this.facing = (dist > 0 ? 1 : -1);
                     }
 
-                    // Jump if player is high or stuck
                     if ((distY < -100 || (Math.abs(this.vx) < 1 && Math.abs(dist) > 100)) && this.grounded) {
                         this.vy = this.jumpPower;
                         this.grounded = false;
                     }
 
-                    // Attack Logic
                     if (Math.abs(dist) < attackRange + 20 && Math.abs(distY) < 100) {
-                        // Randomly choose attack
                         if (Math.random() < 0.05 && this.attackCooldown <= 0) {
                             const r = Math.random();
-                            // Adjusted probabilities to stop spamming ground pound
-                            if (r < 0.4) this.tryAttack('jab');        // 40% chance
-                            else if (r < 0.8) this.tryAttack('cross'); // 40% chance
-                            else if (r < 0.95) this.tryAttack('uppercut'); // 15% chance
-                            else this.tryAttack('pound');              // 5% chance (Rare)
+                            if (r < 0.4) this.tryAttack('jab');
+                            else if (r < 0.8) this.tryAttack('cross');
+                            else if (r < 0.95) this.tryAttack('uppercut');
+                            else this.tryAttack('pound');
                         }
                     }
                 } else {
-                    // DUMB SICK FIGURE AI
+                    // ENEMY AI
                     const dist = player.x - this.x;
                     const attackRange = 50;
                     if (Math.abs(dist) > attackRange) {
@@ -576,7 +921,7 @@
                         this.attackFrame = 15; this.attackCooldown = 30; this.damage = 30; this.vx = this.facing * 10;
                     } else if (type === 'pound') {
                         this.attackFrame = 30; this.attackCooldown = 50;
-                        this.damage = 50; // Reduced damage
+                        this.damage = 50;
                         this.vy = 20; this.vx = 0;
                     }
                 }
@@ -652,16 +997,14 @@
                         gameOver(false);
                     } else if (this.isBoss) {
                         bossDefeated = true;
-                        kills++; // Optional, count boss as kill
+                        kills++;
                         document.getElementById('kill-count').innerText = "BOSS DEFEATED";
-                        gameOver(true); // Victory!
+                        gameOver(true);
                     } else {
-                        // Normal enemy death
                         kills++;
                         document.getElementById('kill-count').innerText = kills;
                         this.vx = direction * (kX + 5);
                         this.vy = kY - 5;
-                        // Note: We don't game over on kills >= 1000 anymore, we wait for boss spawn
                     }
                 }
             }
@@ -707,22 +1050,18 @@
                     if (this.isAttacking) {
                         ctx.lineWidth = 8;
                         if (this.currentAttackType === 'jab') {
-                            // Jab: Straight Out
                             ctx.beginPath(); ctx.moveTo(-10, -90); ctx.lineTo(60, -90); ctx.stroke();
                             ctx.beginPath(); ctx.arc(65, -90, 8, 0, Math.PI * 2); ctx.fill();
                             ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(10, -90); ctx.lineTo(20, -70); ctx.lineTo(30, -80); ctx.stroke();
                         } else if (this.currentAttackType === 'cross') {
-                            // Cross: Straight Out Further
                             ctx.beginPath(); ctx.moveTo(10, -90); ctx.lineTo(80, -90); ctx.stroke();
                             ctx.beginPath(); ctx.arc(85, -90, 9, 0, Math.PI * 2); ctx.fill();
                             ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(-10, -90); ctx.lineTo(0, -70); ctx.lineTo(10, -80); ctx.stroke();
                         } else if (this.currentAttackType === 'uppercut') {
-                            // Uppercut: Straight Up
                             ctx.beginPath(); ctx.moveTo(10, -90); ctx.lineTo(15, -160); ctx.stroke();
                             ctx.beginPath(); ctx.arc(15, -165, 12, 0, Math.PI * 2); ctx.fill();
                             ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(-10, -90); ctx.lineTo(-20, -70); ctx.stroke();
                         } else if (this.currentAttackType === 'pound') {
-                            // Pound: Straight Down
                             ctx.beginPath(); ctx.moveTo(-10, -90); ctx.lineTo(-10, 10); ctx.stroke();
                             ctx.beginPath(); ctx.arc(-10, 15, 10, 0, Math.PI * 2); ctx.fill();
                             ctx.beginPath(); ctx.moveTo(10, -90); ctx.lineTo(10, 10); ctx.stroke();
@@ -762,7 +1101,7 @@
         function startGame() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             soundEnabled = true;
-            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('gameStart').style.display = 'none';
             canvas.focus();
             initGame();
         }
@@ -781,7 +1120,9 @@
             document.getElementById('boss-health-container').style.display = 'none';
             updateHealthBar();
             gameState = 'playing';
-            document.getElementById('game-over').style.display = 'none';
+            document.getElementById('gameOver').style.display = 'none';
+
+            // Start loop if not already running
             requestAnimationFrame(loop);
         }
 
@@ -796,11 +1137,11 @@
             let boss = new Entity(WIDTH / 2, HEIGHT - 300);
             boss.isBoss = true;
             boss.color = '#000000'; // Black
-            boss.maxHealth = 5000; // Increased Boss Health
+            boss.maxHealth = 5000;
             boss.health = 5000;
             boss.width = 50;
             boss.height = 100;
-            boss.damage = 35; // Strong
+            boss.damage = 35;
             boss.speed = 8;
             enemies.push(boss);
 
@@ -866,16 +1207,105 @@
             gameState = 'gameover';
             document.getElementById('go-title').innerText = win ? "VICTORY!" : "GAME OVER";
             document.getElementById('final-score').innerText = kills;
+
+            // Check for leaderboard
+            const lowestScore = highScores.length < 10 ? 0 : highScores[highScores.length - 1].score;
+            if (kills > lowestScore) {
+                document.getElementById('newHighScore').innerText = kills;
+                document.getElementById('highScoreInput').style.display = 'block';
+                document.getElementById('gameOver').style.display = 'none';
+                document.getElementById('playerName').focus();
+            } else {
+                document.getElementById('gameOver').style.display = 'block';
+            }
+
             if (kills > highScore) {
                 highScore = kills;
                 localStorage.setItem('buffBrawlHighScore', highScore);
                 document.getElementById('high-score').innerText = highScore;
-                document.getElementById('new-highscore-msg').innerText = "NEW HIGH SCORE!";
             }
-            document.getElementById('game-over').style.display = 'block';
         }
 
-        window.resetGame = function () {
+        // Leaderboard Logic
+        let highScores = [];
+
+        function loadLeaderboard() {
+            const saved = localStorage.getItem('buffBrawlLeaderboard_v3');
+            if (saved) {
+                highScores = JSON.parse(saved);
+            } else {
+                // Initialize with default scores
+                highScores = [
+                    { name: 'BUFF MASTER', score: 501, date: new Date().toISOString() },
+                    { name: 'GYM RAT', score: 450, date: new Date().toISOString() },
+                    { name: 'IRON PUMPER', score: 400, date: new Date().toISOString() },
+                    { name: 'PROTEIN SHAKE', score: 350, date: new Date().toISOString() },
+                    { name: 'CARDIO KING', score: 300, date: new Date().toISOString() },
+                    { name: 'LEG DAY', score: 250, date: new Date().toISOString() },
+                    { name: 'BENCH PRESS', score: 200, date: new Date().toISOString() },
+                    { name: 'SQUAT SQUAD', score: 150, date: new Date().toISOString() },
+                    { name: 'DEADLIFT DIVA', score: 100, date: new Date().toISOString() },
+                    { name: 'FLEX FRIDAY', score: 50, date: new Date().toISOString() }
+                ];
+                localStorage.setItem('buffBrawlLeaderboard_v3', JSON.stringify(highScores));
+            }
+        }
+
+        loadLeaderboard();
+
+        function showLeaderboard() {
+            const list = document.getElementById('leaderboardList');
+            list.innerHTML = '';
+
+            highScores.sort((a, b) => b.score - a.score);
+
+            if (highScores.length === 0) {
+                list.innerHTML = '<p style="text-align:center;">No scores yet. Be the first!</p>';
+            } else {
+                highScores.forEach((entry, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'leaderboard-entry';
+
+                    const rank = index + 1;
+                    let medal = '';
+                    if (rank === 1) medal = '🥇';
+                    else if (rank === 2) medal = '🥈';
+                    else if (rank === 3) medal = '🥉';
+                    else medal = `${rank}.`;
+
+                    div.innerHTML = `
+                        <span>${medal} ${entry.name}</span>
+                        <span>${entry.score} Kills</span>
+                    `;
+                    list.appendChild(div);
+                });
+            }
+
+            document.getElementById('leaderboard').style.display = 'block';
+        }
+
+        function hideLeaderboard() {
+            document.getElementById('leaderboard').style.display = 'none';
+        }
+
+        function submitScore() {
+            const name = document.getElementById('playerName').value.trim() || 'Anonymous';
+            const newScore = { name: name, score: kills, date: new Date().toISOString() };
+
+            highScores.push(newScore);
+            highScores.sort((a, b) => b.score - a.score);
+            highScores.splice(10); // Keep top 10
+
+            localStorage.setItem('buffBrawlLeaderboard_v3', JSON.stringify(highScores));
+
+            document.getElementById('highScoreInput').style.display = 'none';
+            showLeaderboard();
+
+            // Show game over screen after closing leaderboard (optional, or just leave leaderboard open)
+            // For now, we leave leaderboard open, user can close it to see game over screen or reset
+        }
+
+        function resetGame() {
             initGame();
         }
 
