@@ -2,21 +2,241 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dave: Warriors & Wizards</title>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+    <!-- Primary Meta Tags -->
+    <title>Dave: Warriors & Wizards | Andy's Epic Gaming Zone</title>
+    <meta name='description' content='Help Dave save his friends in this 3D adventure game!'>
+    <meta name='robots' content='index, follow'>
+
+    <!-- Favicon -->
+    <link rel='icon' type='image/png' href='/favicon.png'>
+
+    <!-- Stylesheets -->
+    <link rel='stylesheet' href='../css/styles.css'>
+
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #87CEEB;
+        :root {
+            --primary-color: #4ecdc4;
+            --secondary-color: #45b7aa;
+            --accent-color: #96ceb4;
+            --text-color: #ffffff;
+            --bg-dark: #2c3e50;
+            --bg-darker: #1a252f;
         }
 
-        /* UI Layers */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font-family: inherit;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .back-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .game-header {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .game-header h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .main-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            min-height: calc(100vh - 200px);
+            padding: 0 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .game-container {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--primary-color);
+            max-width: 900px;
+            width: 100%;
+            flex: 0 0 auto;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            height: fit-content;
+        }
+
+        .sidebar-image {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .donate-link {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-dark);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .donate-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .game-canvas-container {
+            border: 3px solid var(--primary-color);
+            border-radius: 10px;
+            background: #87CEEB;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 0 30px rgba(78, 205, 196, 0.3);
+            width: 100%;
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .game-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-dark);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .game-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .instructions {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--primary-color);
+            text-align: center;
+        }
+
+        .instructions h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .instructions p {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-wrapper {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .game-header h1 {
+                font-size: 2rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .back-button {
+                position: static;
+                display: block;
+                margin: 1rem auto;
+                width: fit-content;
+            }
+        }
+
+        /* Dave Game Specific CSS */
         #ui-layer,
         #title-screen,
-        #map-screen {
+        #map-screen,
+        #overlay {
             position: absolute;
             top: 0;
             left: 0;
@@ -26,18 +246,29 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            z-index: 10;
         }
 
-        /* HUD */
+        #title-screen,
+        #map-screen,
+        #overlay {
+            background: rgba(0, 0, 0, 0.85);
+            pointer-events: auto;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+
         #hud {
             padding: 20px;
             display: flex;
             justify-content: space-between;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
             color: white;
             text-shadow: 2px 2px 0 #000;
             user-select: none;
+            width: 100%;
         }
 
         #stats-container {
@@ -52,13 +283,12 @@
         }
 
         .target-badge {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
             border: 2px solid white;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             opacity: 0.4;
-            transition: all 0.3s ease;
         }
 
         .target-badge.found {
@@ -83,16 +313,6 @@
             background-color: #33ff33;
         }
 
-        #health-display {
-            color: #ff4444;
-            font-size: 28px;
-        }
-
-        #coin-display {
-            color: #FFD700;
-            font-size: 28px;
-        }
-
         #message-area {
             text-align: center;
             margin-bottom: 20%;
@@ -104,17 +324,6 @@
             transition: opacity 0.5s;
         }
 
-        /* Title Screen, Map & Shop */
-        #title-screen,
-        #map-screen {
-            background: rgba(0, 0, 0, 0.85);
-            pointer-events: auto;
-            align-items: center;
-            justify-content: center;
-            z-index: 20;
-            overflow-y: auto;
-        }
-
         #title-content,
         #map-content {
             text-align: center;
@@ -123,111 +332,87 @@
             width: 90%;
         }
 
-        h1 {
-            font-size: 60px;
+        #title-content h1 {
+            font-size: 40px;
             color: #FFD700;
             text-shadow: 4px 4px 0 #000;
             margin-bottom: 10px;
         }
 
-        h2 {
-            font-size: 30px;
-            margin-bottom: 20px;
-            color: #ddd;
-        }
-
         .btn-group {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
-        button {
-            padding: 15px 30px;
-            font-size: 20px;
-            background: #4CAF50;
-            color: white;
-            border: none;
+        .dave-btn {
+            padding: 10px 20px;
+            font-size: 16px;
             border-radius: 8px;
+            border: none;
             cursor: pointer;
-            box-shadow: 0 5px #2E7D32;
-            transition: transform 0.1s;
             font-weight: bold;
-            min-width: 150px;
+            color: white;
+            box-shadow: 0 4px #000;
+            transition: transform 0.1s;
         }
 
-        button:active {
+        .dave-btn:active {
             transform: translateY(4px);
-            box-shadow: 0 1px #2E7D32;
+            box-shadow: 0 0 #000;
         }
 
-        button.btn-mode {
+        .btn-mode {
             background: #2196F3;
-            box-shadow: 0 5px #1565C0;
         }
 
-        button.btn-mode:hover {
-            background: #1976D2;
-        }
-
-        button.btn-shop {
+        .btn-shop {
             background: #FF9800;
-            box-shadow: 0 5px #F57C00;
         }
 
-        button.btn-level {
+        .btn-level {
             background: #555;
-            box-shadow: none;
             cursor: not-allowed;
             opacity: 0.6;
         }
 
-        button.btn-level.unlocked {
+        .btn-level.unlocked {
             background: #4CAF50;
             cursor: pointer;
             opacity: 1;
-            box-shadow: 0 5px #2E7D32;
         }
 
-        button.btn-back {
+        .btn-back {
             background: #d32f2f;
         }
 
-        /* Shop Grid */
         #shop-container {
             background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
             display: none;
-            /* Hidden by default */
-        }
-
-        .shop-category {
-            margin-bottom: 20px;
-        }
-
-        .shop-category h3 {
-            text-align: left;
-            border-bottom: 1px solid #555;
-            margin-bottom: 10px;
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .shop-items {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .shop-item {
             background: #333;
-            padding: 10px;
+            padding: 8px;
             border-radius: 5px;
             cursor: pointer;
             border: 2px solid #555;
-            width: 100px;
+            width: 90px;
             text-align: center;
+            font-size: 12px;
         }
 
         .shop-item:hover {
@@ -243,29 +428,6 @@
             opacity: 0.5;
         }
 
-        .price-tag {
-            color: #FFD700;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        #overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            /* Hidden initially */
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            pointer-events: auto;
-            z-index: 15;
-        }
-
         .hidden {
             display: none !important;
         }
@@ -273,73 +435,112 @@
 </head>
 
 <body>
+    <a href="../index.html" class="back-button">🏠 Back to Gaming Zone</a>
 
-    <!-- HUD -->
-    <div id="ui-layer" class="hidden">
-        <div id="hud">
-            <div id="stats-container">
-                <div id="timer">Time: 02:00</div>
-                <div id="health-display">♥♥♥♥♥</div>
-                <div id="coin-display">Coins: 0</div>
-            </div>
-            <div id="targets-container">
-                <span>Find: </span>
-                <div id="badge-red" class="target-badge bg-red"></div>
-                <div id="badge-blue" class="target-badge bg-blue"></div>
-                <div id="badge-yellow" class="target-badge bg-yellow"></div>
-                <div id="badge-green" class="target-badge bg-green"></div>
-            </div>
-        </div>
-        <div id="message-area"></div>
+    <div class="game-header">
+        <h1>⚔️ DAVE: WARRIORS & WIZARDS ⚔️</h1>
     </div>
 
-    <!-- Title Screen -->
-    <div id="title-screen">
-        <div id="title-content">
-            <h1>Dave: Warriors & Wizards</h1>
-            <h2 id="bank-display">Total Coins: 0</h2>
+    <div class="main-wrapper">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+            <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
+        </div>
 
-            <div class="btn-group">
-                <button class="btn-mode" onclick="showMap()">Story Mode</button>
-                <button class="btn-mode" onclick="startCoinRush()">Coin Rush</button>
-                <button class="btn-shop" onclick="toggleShop()">Shop</button>
+        <div class="game-container">
+
+            <div class="game-canvas-container" id="game-wrapper">
+                <canvas id="gameCanvas"></canvas>
+
+                <!-- UI Layers -->
+                <div id="ui-layer" class="hidden">
+                    <div id="hud">
+                        <div id="stats-container">
+                            <div id="timer">Time: 02:00</div>
+                            <div id="health-display">♥♥♥♥♥</div>
+                            <div id="coin-display">Coins: 0</div>
+                        </div>
+                        <div id="targets-container">
+                            <span>Find: </span>
+                            <div id="badge-red" class="target-badge bg-red"></div>
+                            <div id="badge-blue" class="target-badge bg-blue"></div>
+                            <div id="badge-yellow" class="target-badge bg-yellow"></div>
+                            <div id="badge-green" class="target-badge bg-green"></div>
+                        </div>
+                    </div>
+                    <div id="message-area"></div>
+                </div>
+
+                <div id="title-screen">
+                    <div id="title-content">
+                        <h1>Dave: Warriors & Wizards</h1>
+                        <h2 id="bank-display">Total Coins: 0</h2>
+                        <div class="btn-group">
+                            <button class="dave-btn btn-mode" onclick="showMap()">Story Mode</button>
+                            <button class="dave-btn btn-mode" onclick="startCoinRush()">Coin Rush</button>
+                            <button class="dave-btn btn-shop" onclick="toggleShop()">Shop</button>
+                        </div>
+                        <div id="shop-container">
+                            <h2>Dave's Armory</h2>
+                            <div id="shop-list"></div>
+                            <button class="dave-btn" onclick="toggleShop()"
+                                style="margin-top: 10px; background: #555;">Close Shop</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="map-screen" class="hidden">
+                    <div id="map-content">
+                        <h1>Select Level</h1>
+                        <p>Green Dave is waiting to help you!</p>
+                        <div class="btn-group">
+                            <button id="lvl-1-btn" class="dave-btn btn-level" onclick="startStoryLevel(1)">Level
+                                1<br><small>Warriors Only</small></button>
+                            <button id="lvl-2-btn" class="dave-btn btn-level" onclick="startStoryLevel(2)">Level
+                                2<br><small>+ Archers</small></button>
+                            <button id="lvl-3-btn" class="dave-btn btn-level" onclick="startStoryLevel(3)">Level
+                                3<br><small>+ Evil Dave</small></button>
+                        </div>
+                        <button class="dave-btn btn-back" onclick="returnToTitle()">Back</button>
+                    </div>
+                </div>
+
+                <div id="overlay" class="hidden">
+                    <h1 id="overlay-title">Game Over</h1>
+                    <p id="overlay-desc"></p>
+                    <div class="btn-group">
+                        <button id="return-btn" class="dave-btn btn-back" onclick="returnToTitle()">Return to
+                            Title</button>
+                        <button id="next-level-btn" class="dave-btn btn-mode hidden" onclick="nextLevel()">Next
+                            Level</button>
+                    </div>
+                </div>
             </div>
 
-            <div id="shop-container">
-                <h2>Dave's Armory</h2>
-                <div id="shop-list"></div>
-                <button onclick="toggleShop()" style="margin-top: 10px; background: #555;">Close Shop</button>
+            <div class="controls">
+                <button class="game-button" onclick="returnToTitle()">🏠 TITLE</button>
+                <button class="game-button" onclick="togglePause()">⏸️ PAUSE</button>
+                <button class="game-button" onclick="toggleShop()">🛒 SHOP</button>
+            </div>
+
+            <div class="instructions">
+                <h3>🚀 HOW TO PLAY</h3>
+                <p><strong>🎯 Objective:</strong> Find your friends (Red, Blue, Yellow, Green) or collect coins!</p>
+                <p><strong>🎮 Controls:</strong> WASD / ARROWS to Move, SPACE to Jump, SHIFT to Crouch</p>
+                <p><strong>⚔️ Combat:</strong> CLICK or / or ? to Attack enemies.</p>
+                <p><strong>🛍️ Shop:</strong> Use collected coins to buy new outfits and gear!</p>
             </div>
         </div>
-    </div>
 
-    <!-- Map Screen -->
-    <div id="map-screen" class="hidden">
-        <div id="map-content">
-            <h1>Select Level</h1>
-            <p>Green Dave is waiting to help you!</p>
-            <div class="btn-group">
-                <button id="lvl-1-btn" class="btn-level" onclick="startStoryLevel(1)">Level 1<br><small>Warriors
-                        Only</small></button>
-                <button id="lvl-2-btn" class="btn-level" onclick="startStoryLevel(2)">Level 2<br><small>+
-                        Archers</small></button>
-                <button id="lvl-3-btn" class="btn-level" onclick="startStoryLevel(3)">Level 3<br><small>+ Evil
-                        Dave</small></button>
-            </div>
-            <button class="btn-back" onclick="returnToTitle()">Back</button>
+        <!-- Right Sidebar -->
+        <div class="sidebar">
+            <img src="../images/andy_my529.png" alt="Andy's 529 Plan" class="sidebar-image">
+            <a href="https://gift.my529.org/LPXR40" target="_blank" class="donate-link">Donate to Andy</a>
         </div>
-    </div>
-
-    <!-- Game Over Overlay -->
-    <div id="overlay">
-        <h1 id="overlay-title">Game Over</h1>
-        <p id="overlay-desc"></p>
-        <button id="return-btn" onclick="returnToTitle()">Return to Title</button>
-        <button id="next-level-btn" class="hidden" onclick="nextLevel()">Next Level</button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
     <script>
         // --- Configuration ---
         const CONFIG = {
@@ -457,6 +658,7 @@
         let gameState = 'TITLE';
         let gameMode = 'story';
         let currentLevel = 1;
+        let isPaused = false;
 
         let saveData = JSON.parse(localStorage.getItem('daveSave')) || {
             coins: 0,
@@ -491,18 +693,22 @@
             scene.background = new THREE.Color(0x87CEEB);
             scene.fog = new THREE.Fog(0x87CEEB, 10, 60);
 
-            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+            const container = document.getElementById('game-wrapper');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
 
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 200);
+
+            const canvas = document.getElementById('gameCanvas');
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+            renderer.setSize(width, height);
             renderer.shadowMap.enabled = true;
-            document.body.appendChild(renderer.domElement);
 
             clock = new THREE.Clock();
 
             window.addEventListener('keydown', (e) => handleKey(e, true));
             window.addEventListener('keyup', (e) => handleKey(e, false));
-            window.addEventListener('mousedown', () => { if (gameState === 'PLAYING') keys.attack = true; });
+            window.addEventListener('mousedown', () => { if (gameState === 'PLAYING' && !isPaused) keys.attack = true; });
             window.addEventListener('resize', onWindowResize);
 
             updateShopUI();
@@ -518,6 +724,12 @@
 
         function handleKey(e, isDown) {
             const key = e.key.toLowerCase();
+
+            // Prevent default scrolling for game keys
+            if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' '].includes(key)) {
+                e.preventDefault();
+            }
+
             if (key === 'w' || key === 'arrowup') keys.w = isDown;
             if (key === 'a' || key === 'arrowleft') keys.a = isDown;
             if (key === 's' || key === 'arrowdown') keys.s = isDown;
@@ -525,6 +737,17 @@
             if (key === ' ') keys.space = isDown;
             if (key === 'shift' || key === 'c') keys.shift = isDown;
             if (key === '/' || key === '?') keys.attack = isDown;
+            if (isDown && key === 'p') togglePause();
+        }
+
+        function togglePause() {
+            if (gameState !== 'PLAYING') return;
+            isPaused = !isPaused;
+            if (isPaused) {
+                showMessage("PAUSED");
+            } else {
+                showMessage("RESUMED");
+            }
         }
 
         // --- Logic: Modes & Flow ---
@@ -560,10 +783,11 @@
 
         function startGame() {
             gameState = 'PLAYING';
+            isPaused = false;
             titleScreen.classList.add('hidden');
             mapScreen.classList.add('hidden');
             uiLayer.classList.remove('hidden');
-            overlay.style.display = 'none';
+            overlay.classList.add('hidden'); // Use class hidden instead of style.display
 
             sessionCoins = 0;
             playerHealth = 5;
@@ -590,12 +814,14 @@
 
         function returnToTitle() {
             gameState = 'TITLE';
-            overlay.style.display = 'none';
+            isPaused = false;
+            overlay.classList.add('hidden');
             uiLayer.classList.add('hidden');
             mapScreen.classList.add('hidden');
             titleScreen.classList.remove('hidden');
             renderTitleBackground();
             saveGame();
+            if (timerInterval) clearInterval(timerInterval);
         }
 
         function toggleShop() {
@@ -605,7 +831,7 @@
         }
 
         function gameTick() {
-            if (gameState !== 'PLAYING') return;
+            if (gameState !== 'PLAYING' || isPaused) return;
             timeRemaining--;
             let mins = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
             let secs = (timeRemaining % 60).toString().padStart(2, '0');
@@ -659,6 +885,8 @@
             if (gameMode === 'rush') title.textContent = "Run Finished";
 
             desc.innerHTML = message + `<br>Total Earned: ${sessionCoins} Coins`;
+
+            overlay.classList.remove('hidden');
             overlay.style.display = 'flex';
         }
 
@@ -1000,6 +1228,8 @@
                 return;
             }
 
+            if (isPaused) return;
+
             if (gameState !== 'PLAYING') {
                 renderer.render(scene, camera);
                 return;
@@ -1316,9 +1546,9 @@
                     if (!isOwned && item.price > 0) el.classList.add('locked');
 
                     el.innerHTML = `
-                        <div>${item.name}</div>
-                        <div class="price-tag">${isOwned ? (isEquipped ? 'EQUIPPED' : 'OWNED') : item.price + ' Coins'}</div>
-                    `;
+                    <div>${item.name}</div>
+                    <div class="price-tag">${isOwned ? (isEquipped ? 'EQUIPPED' : 'OWNED') : item.price + ' Coins'}</div>
+                `;
 
                     el.onclick = () => buyOrEquip(item);
                     itemsDiv.appendChild(el);
@@ -1355,10 +1585,15 @@
         }
 
         function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
+            const container = document.getElementById('game-wrapper');
+            if (!container) return;
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            camera.aspect = width / height;
             camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(width, height);
         }
+
 
         init();
     </script>
