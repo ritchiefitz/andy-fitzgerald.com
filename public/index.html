@@ -510,6 +510,210 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* Tab Styles */
+    .tab-container {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .tab-buttons {
+      display: inline-flex;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 5px;
+      border-radius: 30px;
+      border: 1px solid var(--primary-color);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      padding: 10px 30px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      font-family: 'Courier New', monospace;
+      text-transform: uppercase;
+    }
+
+    .tab-btn.active {
+      background: var(--primary-color);
+      color: var(--bg-dark);
+      box-shadow: 0 0 15px rgba(78, 205, 196, 0.4);
+    }
+
+    .tab-btn:hover:not(.active) {
+      color: var(--primary-color);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Section Container */
+    .ai-shoutout {
+      text-align: center;
+      padding: 40px 20px;
+      font-family: 'Courier New', Courier, monospace;
+      /* Matches your hacker font */
+      border-top: 2px solid #00f3ff;
+      /* Neon Cyan Border */
+      margin-top: 50px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+    }
+
+    /* The Heading */
+    .ai-shoutout h2 {
+      color: #00f3ff;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px #00f3ff;
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+      font-size: 2rem;
+    }
+
+    /* Container for the Logos */
+    .ai-grid {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+    /* Individual Cards */
+    .ai-card {
+      background: #0d1117;
+      /* Dark background */
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 20px;
+      width: 200px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Hover Effect: The Card Glows */
+    .ai-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+      border-color: #00f3ff;
+    }
+
+    /* Logo Styling */
+    .ai-logo {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 15px;
+    }
+
+    /* SPECIFIC: Gemini Blue Glow */
+    .gemini-glow {
+      filter: drop-shadow(0 0 8px #4E87F6);
+    }
+
+    /* SPECIFIC: ChatGPT Neon Conversion 
+       (Inverts black to white and adds a cyan glow) */
+    .chatgpt-glow {
+      filter: invert(1) drop-shadow(0 0 5px #ffffff);
+    }
+
+    /* Text Styling */
+    .ai-card h3 {
+      color: #fff;
+      font-size: 1.2rem;
+      margin: 5px 0;
+    }
+
+    .ai-card p {
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    @keyframes spin-wildly {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spin-wildly {
+      animation: spin-wildly 0.5s linear infinite;
+    }
+
+    @keyframes shake-hard {
+      0% {
+        transform: translate(1px, 1px) rotate(0deg);
+      }
+
+      10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+      }
+
+      20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+      }
+
+      30% {
+        transform: translate(3px, 2px) rotate(0deg);
+      }
+
+      40% {
+        transform: translate(1px, -1px) rotate(1deg);
+      }
+
+      50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+      }
+
+      60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+      }
+
+      70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+      }
+
+      80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+      }
+
+      90% {
+        transform: translate(1px, 2px) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+      }
+    }
+
+    .shake-hard {
+      animation: shake-hard 0.5s ease-in-out infinite;
+    }
   </style>
 
   <!-- Structured Data -->
@@ -668,82 +872,122 @@
       <div class="container">
 
         <main>
-          <section id="games" class="section" aria-labelledby="games-heading">
-            <h2 id="games-heading">EPIC GAMES <br><span class="emoji">🎮</span></h2>
-            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem; color: var(--text-secondary);">Choose
-              your gaming adventure! More epic games coming soon! <span class="emoji">⚡</span></p>
-
-            <div class="games-grid">
-              <article class="game-card" data-game="Escape-prison-run">
-                <h3>🚓 Escape Road: City Chaos</h3>
-                <p>Outrun the cops, dodge traffic, and cause chaos in this high-speed chase game!</p>
-              </article>
-              <article class="game-card" data-game="cyber-search">
-                <h3>🔍 Cyber Search</h3>
-                <p>Hack the grid and find hidden words in this futuristic word search challenge!</p>
-              </article>
-              <article class="game-card" data-game="Buff-Brawl">
-                <h3>🥊 Buff Brawl</h3>
-                <p>Arena Survival: Fight waves of enemies and defeat the Buff Boss!</p>
-              </article>
-              <article class="game-card" data-game="Tennis-game">
-                <h3>🎾 Super Strikers 2D</h3>
-                <p>Compete in a fast-paced tennis match against the CPU or a friend!</p>
-              </article>
-              <article class="game-card" data-game="Explosion-Commotion">
-                <h3>💣 Explosion Commotion</h3>
-                <p>Dodge bombs, ride missiles, and survive in this explosive arcade game!</p>
-              </article>
-              <article class="game-card" data-game="dave-game">
-                <h3>⚔️ Dave: Warriors & Wizards</h3>
-                <p>Battle through levels, collect coins, and defeat Evil Dave in this 3D adventure!</p>
-              </article>
-              <article class="game-card" data-game="pocket-tanks">
-                <h3>🎯 Pocket Tanks</h3>
-                <p>Epic turn-based artillery combat with destructible terrain and explosive weapons!</p>
-              </article>
-
-              <article class="game-card" data-game="mine-man">
-                <h3>⛏️ Mine-Man</h3>
-                <p>Help Steve collect diamonds while avoiding Minecraft mobs in this epic maze adventure!</p>
-              </article>
-
-              <article class="game-card" data-game="kirby-adventure">
-                <h3>🌸 Kirby Adventure</h3>
-                <p>Help Kirby collect Star Pieces and inhale Dream Land enemies in this adorable maze adventure!</p>
-              </article>
-
-              <article class="game-card" data-game="puzzle-path">
-                <h3>🧩 Puzzle Path</h3>
-                <p>Navigate challenging mazes, collect gems, and find the exit in this brain-teasing adventure!</p>
-              </article>
-
-              <article class="game-card" data-game="snake-legends">
-                <h3>🐍 Snake Legends</h3>
-                <p>Classic snake game with power-ups and epic boss battles!</p>
-              </article>
-
-              <article class="game-card" data-game="space-invaders">
-                <h3>🚀 Space Invaders</h3>
-                <p>Defend Earth from alien invasion in this retro arcade classic!</p>
-              </article>
-
-              <article class="game-card" data-game="asteroid-blaster">
-                <h3>🚀 Asteroid Blaster</h3>
-                <p>Navigate through space and destroy asteroids in this classic arcade shooter!</p>
-              </article>
+          <div class="tab-container">
+            <div class="tab-buttons">
+              <button class="tab-btn active" onclick="openTab('home')">Home</button>
+              <button class="tab-btn" onclick="openTab('shoutouts')">Shout-Outs</button>
             </div>
-          </section>
+          </div>
 
-          <section id="about" class="section" aria-labelledby="about-heading">
-            <h2 id="about-heading">ABOUT THE ZONE <span class="emoji">😎</span></h2>
-            <p style="font-size: 1.2rem; text-align: center; line-height: 1.8; color: var(--text-secondary);">
-              Welcome to Andy's ultimate gaming destination! <span class="emoji">🎮</span> This is where epic adventures
-              begin!
-              <br><br>
-              New games drop regularly, so keep checking back for more epic content! <span class="emoji">🔥</span>
-            </p>
-          </section>
+          <div id="home" class="tab-content active">
+            <section id="games" class="section" aria-labelledby="games-heading">
+              <h2 id="games-heading">EPIC GAMES <br><span class="emoji">🎮</span></h2>
+              <p style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem; color: var(--text-secondary);">
+                Choose
+                your gaming adventure! More epic games coming soon! <span class="emoji">⚡</span></p>
+
+              <div class="games-grid">
+                <article class="game-card" data-game="Escape-prison-run">
+                  <h3>🚓 Escape Road: City Chaos</h3>
+                  <p>Outrun the cops, dodge traffic, and cause chaos in this high-speed chase game!</p>
+                </article>
+                <article class="game-card" data-game="cyber-search">
+                  <h3>🔍 Cyber Search</h3>
+                  <p>Hack the grid and find hidden words in this futuristic word search challenge!</p>
+                </article>
+                <article class="game-card" data-game="Buff-Brawl">
+                  <h3>🥊 Buff Brawl</h3>
+                  <p>Arena Survival: Fight waves of enemies and defeat the Buff Boss!</p>
+                </article>
+                <article class="game-card" data-game="Tennis-game">
+                  <h3>🎾 Super Strikers 2D</h3>
+                  <p>Compete in a fast-paced tennis match against the CPU or a friend!</p>
+                </article>
+                <article class="game-card" data-game="Explosion-Commotion">
+                  <h3>💣 Explosion Commotion</h3>
+                  <p>Dodge bombs, ride missiles, and survive in this explosive arcade game!</p>
+                </article>
+                <article class="game-card" data-game="dave-game">
+                  <h3>⚔️ Dave: Warriors & Wizards</h3>
+                  <p>Battle through levels, collect coins, and defeat Evil Dave in this 3D adventure!</p>
+                </article>
+                <article class="game-card" data-game="pocket-tanks">
+                  <h3>🎯 Pocket Tanks</h3>
+                  <p>Epic turn-based artillery combat with destructible terrain and explosive weapons!</p>
+                </article>
+
+                <article class="game-card" data-game="mine-man">
+                  <h3>⛏️ Mine-Man</h3>
+                  <p>Help Steve collect diamonds while avoiding Minecraft mobs in this epic maze adventure!</p>
+                </article>
+
+                <article class="game-card" data-game="kirby-adventure">
+                  <h3>🌸 Kirby Adventure</h3>
+                  <p>Help Kirby collect Star Pieces and inhale Dream Land enemies in this adorable maze adventure!</p>
+                </article>
+
+                <article class="game-card" data-game="puzzle-path">
+                  <h3>🧩 Puzzle Path</h3>
+                  <p>Navigate challenging mazes, collect gems, and find the exit in this brain-teasing adventure!</p>
+                </article>
+
+                <article class="game-card" data-game="snake-legends">
+                  <h3>🐍 Snake Legends</h3>
+                  <p>Classic snake game with power-ups and epic boss battles!</p>
+                </article>
+
+                <article class="game-card" data-game="space-invaders">
+                  <h3>🚀 Space Invaders</h3>
+                  <p>Defend Earth from alien invasion in this retro arcade classic!</p>
+                </article>
+
+                <article class="game-card" data-game="asteroid-blaster">
+                  <h3>🚀 Asteroid Blaster</h3>
+                  <p>Navigate through space and destroy asteroids in this classic arcade shooter!</p>
+                </article>
+              </div>
+            </section>
+
+            <section id="about" class="section" aria-labelledby="about-heading">
+              <h2 id="about-heading">ABOUT THE ZONE <span class="emoji">😎</span></h2>
+              <p style="font-size: 1.2rem; text-align: center; line-height: 1.8; color: var(--text-secondary);">
+                Welcome to Andy's ultimate gaming destination! <span class="emoji">🎮</span> This is where epic
+                adventures
+                begin!
+                <br><br>
+                New games drop regularly, so keep checking back for more epic content! <span class="emoji">🔥</span>
+              </p>
+            </section>
+          </div>
+
+          <div id="shoutouts" class="tab-content">
+            <div class="ai-shoutout">
+              <h2>⚡ CO-DEVELOPED WITH ⚡</h2>
+
+              <div class="ai-grid">
+                <div class="ai-card">
+                  <img src="gemini-chatGPT/gemini-logo.png" alt="Gemini AI" class="ai-logo gemini-glow" id="gemini-logo"
+                    onclick="triggerGemini()" style="cursor: pointer;">
+                  <h3>Gemini</h3>
+                  <p id="gemini-caption">Code Architect & Logic Engine</p>
+                </div>
+
+                <div class="ai-card">
+                  <img src="gemini-chatGPT/chatgpt-logo.png" alt="ChatGPT" class="ai-logo chatgpt-glow"
+                    id="chatgpt-logo" onclick="triggerChatGPT()" style="cursor: pointer;">
+                  <h3>ChatGPT</h3>
+                  <p id="chatgpt-caption">Creative Director & Bug Squasher</p>
+                </div>
+              </div>
+
+              <p
+                style="color: #888; margin-top: 40px; font-size: 1.1rem; line-height: 1.6; max-width: 800px; margin-left: auto; margin-right: auto;">
+                These two Ai models helped the overall planning and they also created most of the games. Gemini will
+                most likely be taking over for the newest games from now on, but if it weren't for ChatGPT, this website
+                may not have existed.
+              </p>
+            </div>
+          </div>
         </main>
       </div>
     </div>
@@ -760,6 +1004,59 @@
         id="year"></span></p>
   </footer>
 
+  <script>
+    function openTab(tabName) {
+      // Hide all tab content
+      const tabContents = document.getElementsByClassName("tab-content");
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove("active");
+      }
+
+      // Remove active class from all buttons
+      const tabBtns = document.getElementsByClassName("tab-btn");
+      for (let i = 0; i < tabBtns.length; i++) {
+        tabBtns[i].classList.remove("active");
+      }
+
+      // Show the specific tab content
+      document.getElementById(tabName).classList.add("active");
+
+      // Add active class to the button that opened the tab
+      // Find the button that calls this function with this tabName
+      const buttons = document.querySelectorAll(`.tab-btn[onclick="openTab('${tabName}')"]`);
+      if (buttons.length > 0) {
+        buttons[0].classList.add("active");
+      }
+    }
+
+    function triggerGemini() {
+      const logo = document.getElementById('gemini-logo');
+      const caption = document.getElementById('gemini-caption');
+
+      logo.classList.add('spin-wildly');
+      caption.textContent = "I wrote the logic. Andy just brought the snacks.";
+
+      // Revert after 7 seconds
+      setTimeout(() => {
+        logo.classList.remove('spin-wildly');
+        caption.textContent = "Code Architect & Logic Engine";
+      }, 7000);
+    }
+
+    function triggerChatGPT() {
+      const logo = document.getElementById('chatgpt-logo');
+      const caption = document.getElementById('chatgpt-caption');
+
+      logo.classList.add('shake-hard');
+      caption.textContent = "I had the ideas. Andy just clicked Ctrl+C + Ctrl+V.";
+
+      // Revert after 7 seconds
+      setTimeout(() => {
+        logo.classList.remove('shake-hard');
+        caption.textContent = "Creative Director & Bug Squasher";
+      }, 7000);
+    }
+  </script>
   <script src='js/main.js'></script>
 </body>
 
