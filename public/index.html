@@ -876,6 +876,7 @@
             <div class="tab-buttons">
               <button class="tab-btn active" onclick="openTab('home')">Home</button>
               <button class="tab-btn" onclick="openTab('shoutouts')">Shout-Outs</button>
+              <button class="tab-btn" onclick="openTab('secret')">Secret</button>
             </div>
           </div>
 
@@ -988,6 +989,24 @@
               </p>
             </div>
           </div>
+
+          <div id="secret" class="tab-content">
+            <div class="section">
+              <h2><span onclick="revealMilestone()" style="cursor: pointer;">TOP SECRET</span> <span class="emoji"
+                  onclick="revealSecret()" style="cursor: pointer;">🤫</span></h2>
+              <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary);">
+                Nothing to see here... yet!
+              </p>
+              <p id="milestone-message"
+                style="display: none; text-align: center; font-size: 1.1rem; color: var(--accent-color); margin-top: 1rem; animation: fadeIn 1s ease;">
+                New milestone reached! Over 1.23k unique visitors have come to this website!
+              </p>
+              <p id="secret-message"
+                style="display: none; text-align: center; font-size: 1.1rem; color: var(--primary-color); margin-top: 1rem; animation: fadeIn 1s ease;">
+                Did you know that in the Shout-Outs tab, you can click on the logos and a new message will appear?
+              </p>
+            </div>
+          </div>
         </main>
       </div>
     </div>
@@ -1055,6 +1074,32 @@
         logo.classList.remove('shake-hard');
         caption.textContent = "Creative Director & Bug Squasher";
       }, 7000);
+    }
+
+    function revealSecret() {
+      const message = document.getElementById('secret-message');
+      if (message.style.display === 'none') {
+        message.style.display = 'block';
+        // Hide after 5 seconds
+        setTimeout(() => {
+          message.style.display = 'none';
+        }, 5000);
+      } else {
+        message.style.display = 'none';
+      }
+    }
+
+    function revealMilestone() {
+      const message = document.getElementById('milestone-message');
+      if (message.style.display === 'none') {
+        message.style.display = 'block';
+        // Hide after 5 seconds
+        setTimeout(() => {
+          message.style.display = 'none';
+        }, 5000);
+      } else {
+        message.style.display = 'none';
+      }
     }
   </script>
   <script src='js/main.js'></script>
