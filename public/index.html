@@ -714,6 +714,152 @@
     .shake-hard {
       animation: shake-hard 0.5s ease-in-out infinite;
     }
+
+    /* Explosion Effects */
+    @keyframes violent-shake {
+
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      10% {
+        transform: translate(-20px, -20px) rotate(-5deg);
+      }
+
+      20% {
+        transform: translate(20px, 20px) rotate(5deg);
+      }
+
+      30% {
+        transform: translate(-20px, 20px) rotate(-5deg);
+      }
+
+      40% {
+        transform: translate(20px, -20px) rotate(5deg);
+      }
+
+      50% {
+        transform: translate(-20px, 0) rotate(-5deg);
+      }
+
+      60% {
+        transform: translate(20px, 0) rotate(5deg);
+      }
+
+      70% {
+        transform: translate(0, 20px) rotate(-5deg);
+      }
+
+      80% {
+        transform: translate(0, -20px) rotate(5deg);
+      }
+
+      90% {
+        transform: translate(-10px, 10px) rotate(0deg);
+      }
+    }
+
+    .violent-shake {
+      animation: violent-shake 0.1s infinite;
+    }
+
+    @keyframes flash-red {
+
+      0%,
+      100% {
+        filter: none;
+      }
+
+      50% {
+        filter: sepia(1) hue-rotate(-50deg) saturate(5);
+      }
+    }
+
+    .flash-red {
+      animation: flash-red 0.2s infinite;
+    }
+
+    @keyframes explode-out {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(2);
+        opacity: 0;
+        filter: blur(10px);
+      }
+    }
+
+    .explode-out {
+      animation: explode-out 0.5s forwards;
+    }
+
+    #debris-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 20000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .debris-particle {
+      position: absolute;
+      font-size: 2rem;
+      animation: float-debris 10s linear infinite;
+    }
+
+    @keyframes float-debris {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+      }
+
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+      }
+    }
+
+    #explosion-img {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 80vw;
+      max-width: 800px;
+      z-index: 10000;
+      pointer-events: none;
+      display: none;
+    }
+
+    .explode-animate {
+      display: block !important;
+      animation: explode-animate 1s forwards;
+    }
+
+    @keyframes explode-animate {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+      }
+
+      50% {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translate(-50%, -50%) scale(5);
+        opacity: 0;
+      }
+    }
   </style>
 
   <!-- Structured Data -->
@@ -995,7 +1141,8 @@
               <h2><span onclick="revealMilestone()" style="cursor: pointer;">TOP SECRET</span> <span class="emoji"
                   onclick="revealSecret()" style="cursor: pointer;">🤫</span></h2>
               <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary);">
-                Nothing to see here... yet!
+                Nothing to see here... <span onclick="triggerExplosion()"
+                  style="cursor: pointer; color: var(--danger-color);">yet!</span>
               </p>
               <p id="milestone-message"
                 style="display: none; text-align: center; font-size: 1.1rem; color: var(--accent-color); margin-top: 1rem; animation: fadeIn 1s ease;">
@@ -1022,6 +1169,12 @@
     <p style="color: var(--text-secondary);">GAME ON! <span class="emoji">🎮</span> Built by Andy's Dad | <span
         id="year"></span></p>
   </footer>
+
+  <div id="debris-overlay">
+    <h1 style="color: white; font-family: 'Courier New', monospace; text-align: center;">SYSTEM FAILURE<br>💥💥💥</h1>
+  </div>
+
+  <img id="explosion-img" src="images/explosion.png" alt="Explosion">
 
   <script>
     function openTab(tabName) {
@@ -1099,6 +1252,62 @@
         }, 5000);
       } else {
         message.style.display = 'none';
+      }
+    }
+
+    function triggerExplosion() {
+      const body = document.body;
+      const sidebarImages = document.querySelectorAll('.sidebar-image');
+      const debrisOverlay = document.getElementById('debris-overlay');
+      const explosionImg = document.getElementById('explosion-img');
+      const originalSrc = sidebarImages[0].src;
+
+      // 1. Shake and Flash
+      body.classList.add('violent-shake');
+      sidebarImages.forEach(img => {
+        img.classList.add('flash-red');
+        img.src = 'images/warning.png'; // Swap to warning image
+      });
+
+      // 2. Explode after 2 seconds
+      setTimeout(() => {
+        body.classList.remove('violent-shake');
+        body.classList.add('explode-out');
+        explosionImg.classList.add('explode-animate'); // Show explosion image
+
+        // Show debris
+        setTimeout(() => {
+          debrisOverlay.style.display = 'flex';
+          createDebris();
+        }, 200); // Faster debris appearance
+      }, 2000);
+
+      // 3. Reset after 10 seconds (total)
+      setTimeout(() => {
+        body.classList.remove('explode-out');
+        explosionImg.classList.remove('explode-animate');
+        sidebarImages.forEach(img => {
+          img.classList.remove('flash-red');
+          img.src = originalSrc; // Restore original image
+        });
+        debrisOverlay.style.display = 'none';
+        // Clear debris
+        const particles = document.querySelectorAll('.debris-particle');
+        particles.forEach(p => p.remove());
+      }, 10000);
+    }
+
+    function createDebris() {
+      const debrisOverlay = document.getElementById('debris-overlay');
+      const emojis = ['🧱', '💥', '🌫️', '⚙️', '🔩', '🔥'];
+      for (let i = 0; i < 300; i++) { // Increased debris count
+        const particle = document.createElement('div');
+        particle.classList.add('debris-particle');
+        particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.animationDuration = (Math.random() * 5 + 2) + 's';
+        particle.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+        debrisOverlay.appendChild(particle);
       }
     }
   </script>
